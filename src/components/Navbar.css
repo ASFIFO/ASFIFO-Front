@@ -1,0 +1,202 @@
+@import url("https://fonts.googleapis.com/css2?family=Yellowtail&family=Lato:wght@400;600;700&display=swap");
+
+:root {
+  --c-gold: #745568;
+  --c-brown: #004851;
+  --c-dark: #0e0c0d;
+}
+
+.top-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1200;
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.top-navbar.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.top-navbar.always-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.top-navbar-inner {
+  min-height: 84px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 42px;
+  background: rgba(231, 228, 226, 0.09);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.jewel-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.jewel-brand-logo {
+  height: 48px;
+  width: auto;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 4px 10px;
+}
+
+/* STYLE UNIQUE DU MENU */
+.jewel-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 20px 12px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  flex-wrap: wrap;
+}
+
+.menu-toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+}
+
+.menu-toggle span {
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: #171717;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.jewel-menu a {
+  text-decoration: none;
+  color: #171717;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 11px 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: 0.25s ease;
+}
+.jewel-menu a:hover {
+  background: #eef2f2;
+  border-color: #c3d3d5;
+}
+.jewel-menu .contact-btn {
+  background: var(--c-brown);
+  color: #fff;
+}
+.jewel-menu .contact-btn:hover {
+  background: #00343b;
+  border-color: #00343b;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .top-navbar-inner {
+    min-height: 76px;
+    padding: 12px 14px;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+
+  .jewel-brand {
+    justify-content: flex-start;
+  }
+
+  .jewel-brand span {
+    display: inline;
+    font-size: 1.55rem;
+    white-space: nowrap;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .jewel-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 14px;
+    right: 14px;
+    width: auto;
+    border-radius: 24px;
+    padding: 12px;
+    gap: 8px;
+    display: none;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+  }
+
+  .jewel-menu li {
+    flex: 1 1 calc(50% - 8px);
+  }
+
+  .jewel-menu.open {
+    display: flex;
+  }
+
+  .jewel-menu a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 12px;
+    font-size: 0.84rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 540px) {
+  .jewel-brand span {
+    font-size: 1.35rem;
+  }
+
+  .jewel-menu {
+    left: 12px;
+    right: 12px;
+  }
+
+  .jewel-menu li {
+    flex: 1 1 100%;
+  }
+}
