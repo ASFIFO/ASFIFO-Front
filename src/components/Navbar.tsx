@@ -7,7 +7,7 @@ type NavbarProps = {
 };
 
 export default function Navbar({ showAfterScroll = false }: NavbarProps) {
-  const [showSticky, setShowSticky] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -17,23 +17,21 @@ export default function Navbar({ showAfterScroll = false }: NavbarProps) {
       }
     };
 
-    const onScroll = () => {
-      const scrolled = window.scrollY > 80;
-      setShowSticky(scrolled);
-      document.body.classList.toggle("scrolled", scrolled);
-    };
-
     window.addEventListener("resize", onResize);
     onResize();
 
     if (!showAfterScroll) {
-      setShowSticky(true);
       document.body.classList.remove("scrolled");
       return () => {
         window.removeEventListener("resize", onResize);
-        document.body.classList.remove("scrolled");
       };
     }
+
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 80;
+      setScrolled(isScrolled);
+      document.body.classList.toggle("scrolled", isScrolled);
+    };
 
     window.addEventListener("scroll", onScroll);
     onScroll();
@@ -44,6 +42,9 @@ export default function Navbar({ showAfterScroll = false }: NavbarProps) {
       document.body.classList.remove("scrolled");
     };
   }, [showAfterScroll]);
+
+  // Valeur dérivée : pas besoin de state ni de setState synchrone dans l'effet
+  const showSticky = showAfterScroll ? scrolled : true;
 
   const closeMenu = () => setIsMenuOpen(false);
 
