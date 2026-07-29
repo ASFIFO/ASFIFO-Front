@@ -1,26 +1,56 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { Sparkles, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import api from "../lib/api";
+import { getAuthToken, setAuthSession } from "../lib/auth";
+
+// const API_URL = "http://127.0.0.1:8000/api";
 
 interface LoginProps {
-  onLogin?: (data: { email: string; password: string }) => Promise<void>;
+  onSuccess?: () => void;
 }
 
-export default function Login({ onLogin }: LoginProps) {
+export default function Login({ onSuccess }: LoginProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/admin";
+
+  if (getAuthToken()) {
+    return <Navigate to={from} replace />;
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      // Remplace par ton appel API (ex: axios.post('/api/login', { email, password }))
-      await onLogin?.({ email, password });
-    } catch (err) {
-      setError("Identifiants incorrects. Veuillez réessayer.");
+      const res = await api.post("/login", { email, password });
+
+      const { token, user } = res.data;
+
+      // Stocke le token pour les prochaines requêtes
+      setAuthSession(token, user, rememberMe ? "local" : "session");
+
+      onSuccess?.();
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      if (err.response?.status === 422) {
+        // Erreur de validation ou identifiants incorrects renvoyés par Laravel
+        const messages = err.response.data?.errors
+          ? Object.values(err.response.data.errors).flat().join(" ")
+          : err.response.data?.message;
+        setError(messages || "Identifiants incorrects.");
+      } else {
+        setError("Impossible de se connecter au serveur. Réessayez.");
+      }
     } finally {
       setLoading(false);
     }
@@ -34,7 +64,7 @@ export default function Login({ onLogin }: LoginProps) {
           <div className="w-12! h-12! rounded-xl! bg-[#fbeade]! flex! items-center! justify-center! mb-4!">
             <Sparkles className="w-6! h-6! text-[#0a2a2e]!" />
           </div>
-          <h1 className="text-2xl! font-bold! text-white!">Zenith Admin</h1>
+          <h1 className="text-2xl! font-bold! text-white!">ASFIFO Admin</h1>
           <p className="text-[#7fa89f]! text-sm!">Blog &amp; Contacts</p>
         </div>
 
@@ -107,6 +137,8 @@ export default function Login({ onLogin }: LoginProps) {
               <label className="flex! items-center! gap-2! text-[#8fb3ab]! cursor-pointer!">
                 <input
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="rounded! border-[#1a4a4f]! bg-[#0a2a2e]! text-[#5dcaa5]! focus:ring-[#5dcaa5]!"
                 />
                 Se souvenir de moi
@@ -128,7 +160,7 @@ export default function Login({ onLogin }: LoginProps) {
         </div>
 
         <p className="text-center! text-xs! text-[#4d6f68]! mt-6!">
-          Zenith Backoffice • Accès réservé aux administrateurs
+          ASFIFO Backoffice • Accès réservé aux administrateurs
         </p>
       </div>
     </div>

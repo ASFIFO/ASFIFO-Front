@@ -9,12 +9,8 @@ import {
   Plus,
   ArrowRight,
   Eye,
-  Clock,
-  TrendingUp,
   Globe,
-  CornerUpLeft,
   ChevronRight,
-  Database
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {

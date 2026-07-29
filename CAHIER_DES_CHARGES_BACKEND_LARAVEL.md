@@ -384,6 +384,6 @@ Newsletter :
 
 - Le blog public actuel affiche des realisations codees en dur, tandis que le backoffice gere des articles generiques. Il faut decider si le module `articles` remplace totalement les actualites publiques.
 - Le champ `organization` existe dans le formulaire public mais pas encore dans le modele admin : il faut l'ajouter.
-- Le nom "Zenith Admin" dans le backoffice semble generique : a renommer en "ASFIFO Admin" si souhaite.
+- Le nom "ASFIFO Admin" dans le backoffice semble generique : a renommer en "ASFIFO Admin" si souhaite.
 - Choisir entre tags stockes en JSON ou vraie table `tags`.
 - Decider si l'import/reset demo doit exister en production.

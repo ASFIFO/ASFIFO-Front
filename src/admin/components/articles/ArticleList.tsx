@@ -7,17 +7,14 @@ import { ConfirmModal } from '../common/ConfirmModal';
 import {
   Plus,
   Search,
-  Filter,
   Sparkles,
   Edit2,
   Trash2,
   Eye,
-  Tag as TagIcon,
   CheckCircle2,
   Clock,
   LayoutGrid,
   List as ListIcon,
-  Globe,
   FileEdit,
   Star
 } from 'lucide-react';

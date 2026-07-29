@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PartnersCarousel from "../components/PartnersCarousel";
 import "./Contact.css";
+import api from "../lib/api";
 import {
   Headphones,
   GraduationCap,
@@ -65,17 +66,29 @@ const faqs = [
   { q: "Proposez-vous un accompagnement après la formation ?", a: "Oui, notre équipe reste disponible pour vous accompagner dans votre insertion professionnelle." },
 ];
 
+type FormState = {
+  name: string;
+  email: string;
+  subject: string;
+  organization: string;
+  message: string;
+};
+
+const initialForm: FormState = {
+  name: "",
+  email: "",
+  subject: "",
+  organization: "",
+  message: "",
+};
+
 /*Composant*/
 
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    organization: "",
-    message:"",
-  });
+  const [form, setForm] = useState<FormState>(initialForm);
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -84,9 +97,21 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact form submitted:", form);
+    setStatus("sending");
+    setErrors({});
+
+    try {
+      await api.post("/contact-messages", form);
+      setStatus("success");
+      setForm(initialForm);
+    } catch (err: any) {
+      setStatus("error");
+      if (err.response?.status === 422) {
+        setErrors(err.response.data.errors || {});
+      }
+    }
   };
 
   return (
@@ -134,23 +159,42 @@ export default function Contact() {
           <div className="form-panel">
             <h2 className="section-title">Envoyez-nous un message</h2>
 
+            {status === "success" && (
+              <p className="form-success">
+                Votre message a bien été envoyé. Nous vous répondrons sous 48 heures.
+              </p>
+            )}
+            {status === "error" && !Object.keys(errors).length && (
+              <p className="form-error">
+                Une erreur est survenue lors de l'envoi. Veuillez réessayer.
+              </p>
+            )}
+
             <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-row">
-                <input
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="Nom complet"
-                  className="input"
-                />
-                <input
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="Adresse e-mail"
-                  className="input"
-                />
+                <div>
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="Nom complet"
+                    className="input"
+                    required
+                  />
+                  {errors.name && <p className="field-error">{errors.name[0]}</p>}
+                </div>
+                <div>
+                  <input
+                    name="email"
+                    type="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="Adresse e-mail"
+                    className="input"
+                    required
+                  />
+                  {errors.email && <p className="field-error">{errors.email[0]}</p>}
+                </div>
               </div>
 
               <div className="form-group">
@@ -169,6 +213,7 @@ export default function Contact() {
                   <option value="parcours-dirigeants">Parcours dirigeants en entrepreneuriat</option>
                   <option value="other">Autre</option>
                 </select>
+                {errors.subject && <p className="field-error">{errors.subject[0]}</p>}
               </div>
 
               <div className="form-group">
@@ -191,11 +236,13 @@ export default function Contact() {
                   placeholder="Comment pouvons-nous vous aider ?"
                   rows={4}
                   className="textarea"
+                  required
                 />
+                {errors.message && <p className="field-error">{errors.message[0]}</p>}
               </div>
 
-              <button type="submit" className="submit-btn">
-                ENVOYER LE MESSAGE
+              <button type="submit" className="submit-btn" disabled={status === "sending"}>
+                {status === "sending" ? "ENVOI..." : "ENVOYER LE MESSAGE"}
                 <Send className="icon-sm" />
               </button>
 

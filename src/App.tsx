@@ -6,6 +6,7 @@ import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import AppAdmin from './admin/App';
 import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           
           {/* Route admin avec préfixe */}
+          <Route element={<PrivateRoute />}>
           <Route path="/admin/*" element={<AppAdmin />} />
+        </Route>
         </Routes>
       </main>
     </>

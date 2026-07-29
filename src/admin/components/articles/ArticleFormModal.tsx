@@ -16,7 +16,7 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
   onClose,
   articleToEdit,
 }) => {
-  const { addArticle, updateArticle } = useData();
+  const { addArticle, updateArticle, uploadArticleImage } = useData();
 
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
@@ -28,6 +28,8 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
   const [isPublished, setIsPublished] = useState(true);
   const [author, setAuthor] = useState('Sophie Martin');
   const [showPresets, setShowPresets] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
 
   useEffect(() => {
     if (articleToEdit) {
@@ -38,6 +40,7 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
       setTags(articleToEdit.tags || []);
       setFeatured(articleToEdit.featured);
       setIsPublished(articleToEdit.is_published);
+      setImageFile(null); 
       setAuthor(articleToEdit.author || 'Sophie Martin');
     } else {
       // Reset form
@@ -48,6 +51,7 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
       setTags(['Technologie', 'Web']);
       setFeatured(false);
       setIsPublished(true);
+      setImageFile(null); 
       setAuthor('Sophie Martin');
     }
   }, [articleToEdit, isOpen]);
@@ -67,49 +71,45 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const dataUrl = event.target?.result as string;
-      if (dataUrl) {
-        setImageUrl(dataUrl);
-      }
-    };
-    reader.readAsDataURL(file);
+
+const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  setImageFile(file);
+  setImageUrl(URL.createObjectURL(file)); // aperçu local immédiat, sans base64
+};
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!title.trim() || !content.trim()) return;
+
+  const payload = {
+    title,
+    excerpt,
+    content,
+    ...(!imageFile && {
+      image_url: imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+    }),
+    tags,
+    featured,
+    is_published: isPublished,
+    author,
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim() || !content.trim()) return;
+  let savedArticle: Article | undefined;
 
-    if (articleToEdit) {
-      updateArticle(articleToEdit.id, {
-        title,
-        excerpt,
-        content,
-        image_url: imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
-        tags,
-        featured,
-        is_published: isPublished,
-        author,
-      });
-    } else {
-      addArticle({
-        title,
-        excerpt,
-        content,
-        image_url: imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
-        tags,
-        featured,
-        is_published: isPublished,
-        author,
-      });
-    }
-    onClose();
-  };
+  if (articleToEdit) {
+    await updateArticle(articleToEdit.id, payload);
+    savedArticle = { ...articleToEdit, ...payload };
+  } else {
+    savedArticle = await addArticle(payload as Omit<Article, 'id' | 'created_at' | 'updated_at' | 'views'>);
+  }
 
+  if (imageFile && savedArticle) {
+    await uploadArticleImage(savedArticle.id, imageFile);
+  }
+
+  onClose();
+};
   return (
     <div className="fixed! inset-0! z-50! flex! items-center! justify-center! p-4! bg-slate-900/50! backdrop-blur-xs! animate-in! fade-in! duration-200! overflow-y-auto!">
       <div className="bg-white! rounded-2xl! shadow-xl! max-w-3xl! w-full! p-6! sm:p-8! border! border-slate-100! relative! my-8! max-h-[90vh]! flex! flex-col!">

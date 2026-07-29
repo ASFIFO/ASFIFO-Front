@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { DataProvider } from './context/DataContext';
 import { Layout } from './components/layout/Layout';
 import { Dashboard } from './components/dashboard/Dashboard';

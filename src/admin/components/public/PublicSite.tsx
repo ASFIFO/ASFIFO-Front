@@ -11,8 +11,6 @@ import {
   ArrowLeft,
   Mail,
   CheckCircle2,
-  Tag,
-  Eye,
   ArrowRight
 } from 'lucide-react';
 

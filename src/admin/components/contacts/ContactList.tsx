@@ -12,10 +12,7 @@ import {
   Eye,
   CornerUpLeft,
   MailOpen,
-  Inbox,
-  Sparkles,
-  User,
-  AlertCircle
+  Inbox
 } from 'lucide-react';
 
 export const ContactList: React.FC = () => {

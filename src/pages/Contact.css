@@ -142,7 +142,9 @@
   color: #ffffff;
   flex-shrink: 0;
 }
-
+.form-success { color: #0f6e56; margin-bottom: 1rem; }
+.form-error { color: #993c1d; margin-bottom: 1rem; }
+.field-error { color: #993c1d; font-size: 0.8rem; margin-top: 0.25rem; }
 .trust-point-title {
   font-size: 14px;
   font-weight: 600;

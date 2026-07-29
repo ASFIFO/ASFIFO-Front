@@ -1,104 +1,81 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import "./Blog.css";
-import { ChevronRight, CalendarDays, Clock } from "lucide-react";
-import dirigeantsTpePme from "../assets/realisations/dirigeants-tpe-pme.png";
-import comptableAlternance from "../assets/realisations/comptable-alternance.png";
-import cffammaConference from "../assets/realisations/cffamma-conference.png";
-import cffammaAtelier from "../assets/realisations/cffamma-atelier.png";
-import imgamConference from "../assets/realisations/imgam-conference.jpg";
-import ambatolampyConference from "../assets/realisations/ambatolampy-conference.jpg";
-import itasyConference from "../assets/realisations/itasy-conference.jpg";
-import itasyMontageProjet from "../assets/realisations/itasy-montage-projet.jpg";
+import { ChevronRight, CalendarDays, Eye } from "lucide-react";
+import api from "../lib/api";
 
-const articles = [
-  {
-    id: "montage-projet-itasy",
-    title: "Formation sur le montage de projet et Business Plan",
-    description: "Nos formateurs ont accompagné les étudiants de l'Université d'ITASY dans l'élaboration de leur Business Plan, de l'idée au montage financier.",
-    image: itasyMontageProjet,
-    date: "Décembre 2020",
-    time: "09:00",
-    tags: ["Formation", "Entrepreneuriat"],
-  },
-  {
-    id: "sensibilisation-ambatolampy",
-    title: "Sensibilisation à l'entrepreneuriat des jeunes à Ambatolampy",
-    description: "Une conférence de sensibilisation en plein air pour encourager les jeunes à se tourner vers l'entrepreneuriat responsable.",
-    image: ambatolampyConference,
-    date: "Mars 2020",
-    time: "14:00",
-    tags: ["Conférence", "Jeunesse"],
-  },
-  {
-    id: "conference-imgam",
-    title: "Conférence sur l'entrepreneuriat à l'Université IMGAM",
-    description: "Notre fondatrice a partagé son expérience de dirigeante avec les étudiants de l'Université IMGAM, en partenariat avec Camoi Expertise.",
-    image: imgamConference,
-    date: "Février 2020",
-    time: "10:30",
-    tags: ["Conférence", "Entrepreneuriat"],
-  },
-  {
-    id: "conference-itasy",
-    title: "Conférence sur l'entrepreneuriat à l'Université d'ITASY",
-    description: "Une rencontre avec les étudiants de l'Université d'ITASY autour des enjeux de l'entrepreneuriat à Madagascar.",
-    image: itasyConference,
-    date: "Décembre 2019",
-    time: "09:30",
-    tags: ["Conférence", "Entrepreneuriat"],
-  },
-  {
-    id: "atelier-cffamma",
-    title: "Atelier pratique sur l'entrepreneuriat — CFFAMMA Antsirabe",
-    description: "Un atelier en petits groupes pour mettre en pratique les bases de la création et de la structuration d'un projet.",
-    image: cffammaAtelier,
-    date: "Juin 2019",
-    time: "15:00",
-    tags: ["Atelier", "Entrepreneuriat"],
-  },
-  {
-    id: "conference-cffamma",
-    title: "Conférence sur l'entrepreneuriat au CFFAMMA Antsirabe",
-    description: "Une conférence de sensibilisation à l'entrepreneuriat auprès des jeunes du CFFAMMA d'Antsirabe.",
-    image: cffammaConference,
-    date: "Juin 2019",
-    time: "09:00",
-    tags: ["Conférence", "Jeunesse"],
-  },
-  {
-    id: "formation-comptable-alternance",
-    title: "Formation comptable en alternance — Session 2018",
-    description: "La première session de notre formation professionnelle métier comptable en alternance, pour des collaborateurs opérationnels dès la sortie.",
-    image: comptableAlternance,
-    date: "2018",
-    time: "08:30",
-    tags: ["Formation", "Comptabilité"],
-  },
-  {
-    id: "formation-dirigeants",
-    title: "Formation de dirigeants TPE/PME",
-    description: "Une session dédiée à l'accompagnement des dirigeants de TPE/PME dans la structuration de leur activité et de leur stratégie.",
-    image: dirigeantsTpePme,
-    date: "Décembre 2018",
-    time: "09:00",
-    tags: ["Formation", "Dirigeants"],
-  },
-];
+type ApiArticle = {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  image_url: string | null;
+  tags: string[] | null;
+  featured: boolean;
+  is_published: boolean;
+  views: number;
+  author: string | null;
+  published_at: string | null;
+  created_at: string;
+};
 
-const allTags = ["Tous", ...Array.from(new Set(articles.flatMap((a) => a.tags)))];
+const FALLBACK_IMAGE =
+  "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80";
+
+function formatDate(dateStr: string | null) {
+  if (!dateStr) return "";
+  return new Date(dateStr).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export default function Blog() {
+  const [articles, setArticles] = useState<ApiArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [activeTag, setActiveTag] = useState("Tous");
 
-  const filtered = useMemo(
-    () => (activeTag === "Tous" ? articles : articles.filter((a) => a.tags.includes(activeTag))),
-    [activeTag]
+  useEffect(() => {
+    api
+      .get("/articles", { params: { per_page: 50 } })
+      .then((res) => {
+        const list = res.data.data ?? res.data;
+        setArticles(list);
+      })
+      .catch((err) => {
+        console.error("Erreur lors du chargement des articles", err);
+        setError(true);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const allTags = useMemo(
+    () => ["Tous", ...Array.from(new Set(articles.flatMap((a) => a.tags ?? [])))],
+    [articles]
   );
 
-  const [featured, ...rest] = filtered;
+  const filtered = useMemo(
+    () =>
+      activeTag === "Tous"
+        ? articles
+        : articles.filter((a) => (a.tags ?? []).includes(activeTag)),
+    [articles, activeTag]
+  );
+
+  // Le premier article featured (ou le plus récent) devient la mise en avant
+  const featured = useMemo(
+    () => filtered.find((a) => a.featured) ?? filtered[0],
+    [filtered]
+  );
+  const rest = useMemo(
+    () => filtered.filter((a) => a.id !== featured?.id),
+    [filtered, featured]
+  );
 
   return (
     <div className="blog-page">
@@ -124,79 +101,97 @@ export default function Blog() {
 
       <section className="blog-section">
         <div className="blog-container">
-          {/* Filtres */}
-          <div className="blog-tags">
-            {allTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                className={`blog-tag-btn ${activeTag === tag ? "blog-tag-btn-active" : ""}`}
-                onClick={() => setActiveTag(tag)}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          {loading && <p className="blog-empty">Chargement des actualités...</p>}
 
-          {featured && (
-            <article id={featured.id} className="blog-featured">
-              <div className="blog-featured-image">
-                <img src={featured.image} alt={featured.title} />
-                <div className="blog-tag-pills">
-                  {featured.tags.map((tag) => (
-                    <span key={tag} className="blog-tag-pill">{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="blog-featured-body">
-                <h2>{featured.title}</h2>
-                <p>{featured.description}</p>
-                <div className="blog-meta">
-                  <span className="blog-meta-item">
-                    <CalendarDays className="blog-meta-icon" />
-                    {featured.date}
-                  </span>
-                  <span className="blog-meta-item">
-                    <Clock className="blog-meta-icon" />
-                    {featured.time}
-                  </span>
-                </div>
-              </div>
-            </article>
+          {error && (
+            <p className="blog-empty">
+              Impossible de charger les actualités pour le moment. Réessayez plus tard.
+            </p>
           )}
 
-          {/* Grille d'articles */}
-          <div className="blog-grid">
-            {rest.map((article) => (
-              <article key={article.id} id={article.id} className="blog-card">
-                <div className="blog-card-image">
-                  <img src={article.image} alt={article.title} />
-                  <div className="blog-tag-pills">
-                    {article.tags.map((tag) => (
-                      <span key={tag} className="blog-tag-pill">{tag}</span>
-                    ))}
-                  </div>
+          {!loading && !error && (
+            <>
+              {/* Filtres */}
+              {allTags.length > 1 && (
+                <div className="blog-tags">
+                  {allTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      className={`blog-tag-btn ${activeTag === tag ? "blog-tag-btn-active" : ""}`}
+                      onClick={() => setActiveTag(tag)}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
-                <div className="blog-card-body">
-                  <h3>{article.title}</h3>
-                  <p>{article.description}</p>
-                  <div className="blog-meta">
-                    <span className="blog-meta-item">
-                      <CalendarDays className="blog-meta-icon" />
-                      {article.date}
-                    </span>
-                    <span className="blog-meta-item">
-                      <Clock className="blog-meta-icon" />
-                      {article.time}
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+              )}
 
-          {filtered.length === 0 && (
-            <p className="blog-empty">Aucune actualité pour ce mot-clé.</p>
+              {featured && (
+                <Link to={`/actualites/${featured.slug}`} className="blog-featured">
+                  <div className="blog-featured-image">
+                    <img src={featured.image_url || FALLBACK_IMAGE} alt={featured.title} />
+                    <div className="blog-tag-pills">
+                      {(featured.tags ?? []).map((tag) => (
+                        <span key={tag} className="blog-tag-pill">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="blog-featured-body">
+                    <h2>{featured.title}</h2>
+                    <p>{featured.excerpt}</p>
+                    <div className="blog-meta">
+                      <span className="blog-meta-item">
+                        <CalendarDays className="blog-meta-icon" />
+                        {formatDate(featured.published_at ?? featured.created_at)}
+                      </span>
+                      <span className="blog-meta-item">
+                        <Eye className="blog-meta-icon" />
+                        {featured.views}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              )}
+
+              {/* Grille d'articles */}
+              <div className="blog-grid">
+                {rest.map((article) => (
+                  <Link
+                    to={`/actualites/${article.slug}`}
+                    key={article.id}
+                    className="blog-card"
+                  >
+                    <div className="blog-card-image">
+                      <img src={article.image_url || FALLBACK_IMAGE} alt={article.title} />
+                      <div className="blog-tag-pills">
+                        {(article.tags ?? []).map((tag) => (
+                          <span key={tag} className="blog-tag-pill">{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="blog-card-body">
+                      <h3>{article.title}</h3>
+                      <p>{article.excerpt}</p>
+                      <div className="blog-meta">
+                        <span className="blog-meta-item">
+                          <CalendarDays className="blog-meta-icon" />
+                          {formatDate(article.published_at ?? article.created_at)}
+                        </span>
+                        <span className="blog-meta-item">
+                          <Eye className="blog-meta-icon" />
+                          {article.views}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+
+              {filtered.length === 0 && (
+                <p className="blog-empty">Aucune actualité pour ce mot-clé.</p>
+              )}
+            </>
           )}
         </div>
       </section>

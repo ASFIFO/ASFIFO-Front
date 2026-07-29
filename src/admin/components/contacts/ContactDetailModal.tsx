@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ContactMessage, ContactMessageStatus } from '../../types';
 import { useData } from '../../context/DataContext';
-import { X, Mail, Send, CheckCircle2, Archive, Trash2, Calendar, User, CornerUpLeft, MessageSquare, Clock } from 'lucide-react';
+import { X, Send, CheckCircle2, Archive, Trash2, Calendar, CornerUpLeft, MessageSquare} from 'lucide-react';
 
 interface ContactDetailModalProps {
   message: ContactMessage | null;

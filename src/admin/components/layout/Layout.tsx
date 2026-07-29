@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import type React from 'react';
+import { useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { ToastContainer } from '../common/ToastContainer';
 import { DataModal } from '../common/DataModal';
 import { ConfirmModal } from '../common/ConfirmModal';
+import { clearAuthSession, getAuthUser } from '../../../lib/auth';
 import {
   LayoutDashboard,
   FileText,
@@ -14,9 +16,6 @@ import {
   X,
   Plus,
   Database,
-  User,
-  ShieldCheck,
-  ChevronRight,
   Sparkles
 } from 'lucide-react';
 
@@ -27,6 +26,8 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { stats, addToast } = useData();
   const location = useLocation();
+  const navigate = useNavigate();
+  const authUser = getAuthUser();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDataModalOpen, setIsDataModalOpen] = useState(false);
@@ -74,8 +75,19 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     addToast('info', 'Déconnexion effectuée', 'Vous avez été déconnecté en toute sécurité.');
+    clearAuthSession();
     setIsLogoutModalOpen(false);
+    navigate('/login', { replace: true });
   };
+
+  const userName = authUser?.name || authUser?.email || 'Administrateur';
+  // const userRole = authUser?.role || 'Admin';
+  const userInitials = userName
+    .split(' ')
+    .map((part: string) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <div className="min-h-screen! bg-[#F5F7F7]! text-[#1E2626]! flex! flex-col! md:flex-row! font-sans!">
@@ -94,7 +106,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
               <div>
                 <h1 className="font-extrabold! text-lg! text-white! leading-none! tracking-tight!">
-                  Zenith Admin
+                  ASFIFO Admin
                 </h1>
                 <span className="text-[11px]! font-medium! text-teal-200/80! mt-1! block!">
                   Blog & Contacts
@@ -122,6 +134,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <NavLink
                   key={item.to}
                   to={item.to}
+                  end
                   onClick={() => setMobileMenuOpen(false)}
                   className={({ isActive }) =>
                     `flex! items-center! justify-between! px-3.5! py-3! rounded-xl! text-sm! font-semibold! transition-all! group! ${
@@ -168,7 +181,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex! items-center! justify-between! pt-2!">
             <div className="flex! items-center! gap-2.5! min-w-0!">
               <div className="w-8! h-8! rounded-full! bg-[#745568]! text-white! flex! items-center! justify-center! font-bold! text-xs! shrink-0! border! border-white/20!">
-                SM
+                {userInitials}
               </div>
               <div className="min-w-0!">
                 <span className="text-xs! font-bold! text-white! block! truncate! leading-tight!">Sophie Martin</span>
@@ -202,7 +215,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h2 className="text-lg! font-bold! text-[#1E2626]! leading-tight!">{getPageTitle()}</h2>
               <span className="text-xs! text-slate-400! hidden! sm:block!">
-                Zenith Backoffice • Thème #004851 & #745568
+                ASFIFO Backoffice • 
               </span>
             </div>
           </div>

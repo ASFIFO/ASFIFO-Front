@@ -8,6 +8,7 @@ export interface Article {
   id: string;
   title: string;
   excerpt: string;
+  slug?: string;
   content: string;
   image_url: string;
   tags: string[];
@@ -25,6 +26,7 @@ export interface ContactMessage {
   email: string;
   subject: string;
   message: string;
+  organization?: string; 
   created_at: string;
   status: ContactMessageStatus;
   reply_notes?: string;
