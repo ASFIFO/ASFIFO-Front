@@ -75,17 +75,25 @@ export default function ArticleDetail() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  useEffect(() => {
-    if (!slug) return;
+useEffect(() => {
+  if (!slug) return;
+  
+  const fetchArticle = async () => {
     setLoading(true);
     setNotFound(false);
 
-    api
-      .get(`/articles/${slug}`)
-      .then((res) => setArticle(res.data))
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
+    try {
+      const res = await api.get(`/articles/${slug}`);
+      setArticle(res.data);
+    } catch {
+      setNotFound(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchArticle();
+}, [slug]);
 
   useEffect(() => {
     api
