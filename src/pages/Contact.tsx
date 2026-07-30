@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import { isAxiosError } from "axios";
 import Footer from "../components/Footer";
 import PartnersCarousel from "../components/PartnersCarousel";
 import "./Contact.css";
@@ -49,7 +50,10 @@ const contactChannels = [
   {
     icon: MapPin,
     title: "Rendez-nous visite",
-    lines: ["Immeuble Heritage, 3e étage", "Lot IVX 72 BIS F Ankazomanga, Antananarivo"],
+    lines: [
+      "Immeuble Heritage, 3e étage",
+      "Lot IVX 72 BIS F Ankazomanga, Antananarivo",
+    ],
   },
   {
     icon: Clock,
@@ -59,16 +63,32 @@ const contactChannels = [
 ];
 
 const faqs = [
-  { q: "Quelles formations proposez-vous ?", a: "Nous proposons des formations pratiques en Audit interne, Audit comptable et financier, Comptabilité, ainsi que des parcours en entrepreneuriat pour dirigeants." },
-  { q: "Combien de temps dure une formation ?", a: "La durée varie selon le programme choisi, de quelques semaines à plusieurs mois, adaptée à votre rythme." },
-  { q: "Les formations sont-elles certifiantes ?", a: "Oui, chaque parcours est sanctionné par une attestation reconnue par nos partenaires professionnels." },
-  { q: "Comment puis-je m'inscrire ?", a: "Il vous suffit de nous contacter via ce formulaire ou par téléphone pour connaître les prochaines sessions disponibles." },
-  { q: "Proposez-vous un accompagnement après la formation ?", a: "Oui, notre équipe reste disponible pour vous accompagner dans votre insertion professionnelle." },
+  {
+    q: "Quelles formations proposez-vous ?",
+    a: "Nous proposons des formations pratiques en Audit interne, Audit comptable et financier, Comptabilité, ainsi que des parcours en entrepreneuriat pour dirigeants.",
+  },
+  {
+    q: "Combien de temps dure une formation ?",
+    a: "La durée varie selon le programme choisi, de quelques semaines à plusieurs mois, adaptée à votre rythme.",
+  },
+  {
+    q: "Les formations sont-elles certifiantes ?",
+    a: "Oui, chaque parcours est sanctionné par une attestation reconnue par nos partenaires professionnels.",
+  },
+  {
+    q: "Comment puis-je m'inscrire ?",
+    a: "Il vous suffit de nous contacter via ce formulaire ou par téléphone pour connaître les prochaines sessions disponibles.",
+  },
+  {
+    q: "Proposez-vous un accompagnement après la formation ?",
+    a: "Oui, notre équipe reste disponible pour vous accompagner dans votre insertion professionnelle.",
+  },
 ];
 
 type FormState = {
   name: string;
   email: string;
+  phone: string;
   subject: string;
   organization: string;
   message: string;
@@ -77,6 +97,7 @@ type FormState = {
 const initialForm: FormState = {
   name: "",
   email: "",
+  phone: " ",
   subject: "",
   organization: "",
   message: "",
@@ -87,11 +108,15 @@ const initialForm: FormState = {
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [form, setForm] = useState<FormState>(initialForm);
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -106,17 +131,19 @@ export default function Contact() {
       await api.post("/contact-messages", form);
       setStatus("success");
       setForm(initialForm);
-    } catch (err: any) {
-      setStatus("error");
-      if (err.response?.status === 422) {
-        setErrors(err.response.data.errors || {});
-      }
-    }
+    } 
+    catch (err: unknown) {
+  setStatus("error");
+  
+  if (isAxiosError(err) && err.response?.status === 422) {
+    setErrors(err.response.data?.errors || {});
+  }
+}
   };
 
   return (
     <div className="contact-page">
-      <Navbar/>
+      <Navbar />
 
       {/* Hero + Form */}
       <section className="hero-section">
@@ -136,8 +163,8 @@ export default function Contact() {
             </h1>
             <p className="hero-text">
               Devenir professionnel dans votre métier grâce à nos formations
-              pratiques en Comptabilité, Audit et Entrepreneuriat. Contactez-nous
-              pour en savoir plus.
+              pratiques en Comptabilité, Audit et Entrepreneuriat.
+              Contactez-nous pour en savoir plus.
             </p>
 
             <div className="trust-points">
@@ -161,7 +188,8 @@ export default function Contact() {
 
             {status === "success" && (
               <p className="form-success">
-                Votre message a bien été envoyé. Nous vous répondrons sous 48 heures.
+                Votre message a bien été envoyé. Nous vous répondrons sous 48
+                heures.
               </p>
             )}
             {status === "error" && !Object.keys(errors).length && (
@@ -181,7 +209,9 @@ export default function Contact() {
                     className="input"
                     required
                   />
-                  {errors.name && <p className="field-error">{errors.name[0]}</p>}
+                  {errors.name && (
+                    <p className="field-error">{errors.name[0]}</p>
+                  )}
                 </div>
                 <div>
                   <input
@@ -193,10 +223,25 @@ export default function Contact() {
                     className="input"
                     required
                   />
-                  {errors.email && <p className="field-error">{errors.email[0]}</p>}
+                  {errors.email && (
+                    <p className="field-error">{errors.email[0]}</p>
+                  )}
                 </div>
               </div>
-
+              <div>
+                <label className="form-label">Numéro de télephone</label>
+                <input
+                  name="phone"
+                  type="tel"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="Numéro de téléphone (facultatif)"
+                  className="input"
+                />
+                {errors.phone && (
+                  <p className="field-error">{errors.phone[0]}</p>
+                )}
+              </div>
               <div className="form-group">
                 <label className="form-label">Sujet</label>
                 <select
@@ -207,17 +252,27 @@ export default function Contact() {
                 >
                   <option value="">Sélectionnez un sujet</option>
                   <option value="audit-interne">Audit interne</option>
-                  <option value="audit-comptable">Audit comptable et financier</option>
+                  <option value="audit-comptable">
+                    Audit comptable et financier
+                  </option>
                   <option value="comptabilite">Comptabilité</option>
-                  <option value="entrepreneuriat">Initiation à l'entrepreneuriat</option>
-                  <option value="parcours-dirigeants">Parcours dirigeants en entrepreneuriat</option>
+                  <option value="entrepreneuriat">
+                    Initiation à l'entrepreneuriat
+                  </option>
+                  <option value="parcours-dirigeants">
+                    Parcours dirigeants en entrepreneuriat
+                  </option>
                   <option value="other">Autre</option>
                 </select>
-                {errors.subject && <p className="field-error">{errors.subject[0]}</p>}
+                {errors.subject && (
+                  <p className="field-error">{errors.subject[0]}</p>
+                )}
               </div>
 
               <div className="form-group">
-                <label className="form-label">Votre entreprise (facultatif)</label>
+                <label className="form-label">
+                  Votre entreprise (facultatif)
+                </label>
                 <input
                   name="organization"
                   value={form.organization}
@@ -238,10 +293,16 @@ export default function Contact() {
                   className="textarea"
                   required
                 />
-                {errors.message && <p className="field-error">{errors.message[0]}</p>}
+                {errors.message && (
+                  <p className="field-error">{errors.message[0]}</p>
+                )}
               </div>
 
-              <button type="submit" className="submit-btn" disabled={status === "sending"}>
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={status === "sending"}
+              >
                 {status === "sending" ? "ENVOI..." : "ENVOYER LE MESSAGE"}
                 <Send className="icon-sm" />
               </button>

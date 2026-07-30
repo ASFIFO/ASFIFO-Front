@@ -1,6 +1,7 @@
 import type React from "react";
 import { useState } from "react";
 import { Sparkles, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { isAxiosError } from "axios";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import { getAuthToken, setAuthSession } from "../lib/auth";
@@ -41,17 +42,18 @@ export default function Login({ onSuccess }: LoginProps) {
 
       onSuccess?.();
       navigate(from, { replace: true });
-    } catch (err: any) {
-      if (err.response?.status === 422) {
-        // Erreur de validation ou identifiants incorrects renvoyés par Laravel
-        const messages = err.response.data?.errors
-          ? Object.values(err.response.data.errors).flat().join(" ")
-          : err.response.data?.message;
-        setError(messages || "Identifiants incorrects.");
-      } else {
-        setError("Impossible de se connecter au serveur. Réessayez.");
-      }
-    } finally {
+} catch (err: unknown) {
+  // Type guard to check if it's an axios error
+  if (isAxiosError(err) && err.response?.status === 422) {
+    const messages = err.response.data?.errors
+      ? Object.values(err.response.data.errors).flat().join(" ")
+      : err.response.data?.message;
+    setError(messages || "Identifiants incorrects.");
+  } else {
+    setError("Impossible de se connecter au serveur. Réessayez.");
+  }
+}
+    finally {
       setLoading(false);
     }
   };

@@ -1,5 +1,6 @@
+import { useId } from 'react';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { Article, ContactMessage, Stats, ToastNotification } from '../types';
+import type { Article, ContactMessage, ContactMessageStatus, Stats, ToastNotification } from '../types';
 import api from '../../lib/api';
 
 interface DataContextType {
@@ -36,12 +37,25 @@ interface DataContextType {
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
-
+interface ApiContactMessage {
+  id: string | number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject?: string | null;
+  organization?: string | null;
+  message: string;
+  status: ContactMessageStatus;
+  reply_notes?: string | null;
+  replied_at?: string | null;
+  created_at: string;
+}
 // Convertit un message renvoyé par l'API Laravel (id numérique) au format attendu par le front (id string)
-const mapApiMessage = (m: any): ContactMessage => ({
+const mapApiMessage = (m:ApiContactMessage): ContactMessage => ({
   id: String(m.id),
   name: m.name,
   email: m.email,
+  phone: m.phone ?? undefined,
   subject: m.subject ?? '',
   organization: m.organization ?? undefined,
   message: m.message,
@@ -52,7 +66,7 @@ const mapApiMessage = (m: any): ContactMessage => ({
 });
 
 // Convertit un article renvoyé par l'API Laravel (id numérique) au format attendu par le front (id string)
-const mapApiArticle = (a: any): Article => ({
+const mapApiArticle = (a: Article): Article => ({
   id: String(a.id),
   title: a.title,
   slug: a.slug,
@@ -69,18 +83,20 @@ const mapApiArticle = (a: any): Article => ({
 });
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  
+  const id = useId()
   const [articles, setArticles] = useState<Article[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
 
-  const addToast = (type: ToastNotification['type'], title: string, message?: string) => {
-    const id = Date.now().toString() + Math.random().toString(36).substring(2, 6);
-    setToasts((prev) => [...prev, { id, type, title, message }]);
+const addToast = (type: ToastNotification['type'], title: string, message?: string) => {
+  const toastId = `${id}`;
+  setToasts((prev) => [...prev, { id: toastId, type, title, message }]);
 
-    setTimeout(() => {
-      removeToast(id);
-    }, 4000);
-  };
+  setTimeout(() => {
+    removeToast(toastId);
+  }, 4000);
+};
 
   const removeToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -303,7 +319,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return JSON.stringify(exportObject, null, 2);
   };
 
-  const importJSON = (_jsonString: string): boolean => {
+  const importJSON = (): boolean => {
     addToast('error', 'Import désactivé', "L'import JSON n'est plus disponible : les données viennent désormais du serveur.");
     return false;
   };

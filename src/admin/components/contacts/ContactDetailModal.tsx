@@ -1,7 +1,16 @@
-import React, { useState } from 'react';
-import type { ContactMessage, ContactMessageStatus } from '../../types';
-import { useData } from '../../context/DataContext';
-import { X, Send, CheckCircle2, Archive, Trash2, Calendar, CornerUpLeft, MessageSquare} from 'lucide-react';
+import React, { useState } from "react";
+import type { ContactMessage, ContactMessageStatus } from "../../types";
+import { useData } from "../../context/DataContext";
+import {
+  X,
+  Send,
+  CheckCircle2,
+  Archive,
+  Trash2,
+  Calendar,
+  CornerUpLeft,
+  MessageSquare,
+} from "lucide-react";
 
 interface ContactDetailModalProps {
   message: ContactMessage | null;
@@ -14,38 +23,62 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { updateMessageStatus, replyToMessage, deleteContactMessage, archiveContactMessage } = useData();
-  const [replyText, setReplyText] = useState('');
+  const {
+    updateMessageStatus,
+    replyToMessage,
+    deleteContactMessage,
+    archiveContactMessage,
+  } = useData();
+  const [replyText, setReplyText] = useState("");
   const [showReplyForm, setShowReplyForm] = useState(false);
 
   if (!isOpen || !message) return null;
 
-  const formattedDate = new Date(message.created_at).toLocaleDateString('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const formattedDate = new Date(message.created_at).toLocaleDateString(
+    "fr-FR",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    },
+  );
 
   const handleSendReply = (e: React.FormEvent) => {
     e.preventDefault();
     if (!replyText.trim()) return;
     replyToMessage(message.id, replyText);
-    setReplyText('');
+    setReplyText("");
     setShowReplyForm(false);
   };
 
   const statusBadge = (status: ContactMessageStatus) => {
     switch (status) {
-      case 'new':
-        return <span className="px-3! py-1! bg-blue-100! text-blue-800! rounded-full! text-xs! font-semibold!">Nouveau</span>;
-      case 'read':
-        return <span className="px-3! py-1! bg-slate-200! text-slate-700! rounded-full! text-xs! font-semibold!">Lu</span>;
-      case 'replied':
-        return <span className="px-3! py-1! bg-emerald-100! text-emerald-800! rounded-full! text-xs! font-semibold!">Répondu</span>;
-      case 'archived':
-        return <span className="px-3! py-1! bg-[#745568]! text-white! rounded-full! text-xs! font-semibold!">Archivé</span>;
+      case "new":
+        return (
+          <span className="px-3! py-1! bg-blue-100! text-blue-800! rounded-full! text-xs! font-semibold!">
+            Nouveau
+          </span>
+        );
+      case "read":
+        return (
+          <span className="px-3! py-1! bg-slate-200! text-slate-700! rounded-full! text-xs! font-semibold!">
+            Lu
+          </span>
+        );
+      case "replied":
+        return (
+          <span className="px-3! py-1! bg-emerald-100! text-emerald-800! rounded-full! text-xs! font-semibold!">
+            Répondu
+          </span>
+        );
+      case "archived":
+        return (
+          <span className="px-3! py-1! bg-[#745568]! text-white! rounded-full! text-xs! font-semibold!">
+            Archivé
+          </span>
+        );
     }
   };
 
@@ -59,10 +92,23 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
               {message.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h3 className="font-bold! text-[#1E2626]! text-base!">{message.name}</h3>
-              <a href={`mailto:${message.email}`} className="text-xs! text-[#004851]! hover:underline!">
+              <h3 className="font-bold! text-[#1E2626]! text-base!">
+                {message.name}
+              </h3>
+              <a
+                href={`mailto:${message.email}`}
+                className="text-xs! text-[#004851]! hover:underline!"
+              >
                 {message.email}
               </a>
+              {message.phone && (
+                <a
+                  href={`tel:${message.phone}`}
+                  className="text-xs! text-slate-500! hover:underline! block!"
+                >
+                  {message.phone}
+                </a>
+              )}
             </div>
           </div>
 
@@ -82,13 +128,17 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
           {/* Sujet & Date */}
           <div className="bg-slate-50! p-4! rounded-xl! border! border-slate-200/80! space-y-2!">
             <div className="flex! flex-col! sm:flex-row! sm:items-center! justify-between! gap-2!">
-              <span className="text-xs! font-bold! text-[#745568]! uppercase! tracking-wider!">Sujet du message</span>
+              <span className="text-xs! font-bold! text-[#745568]! uppercase! tracking-wider!">
+                Sujet du message
+              </span>
               <span className="text-xs! text-slate-500! flex! items-center! gap-1!">
                 <Calendar className="w-3.5! h-3.5! text-slate-400!" />
                 {formattedDate}
               </span>
             </div>
-            <h2 className="text-lg! font-bold! text-[#1E2626]!">{message.subject}</h2>
+            <h2 className="text-lg! font-bold! text-[#1E2626]!">
+              {message.subject}
+            </h2>
           </div>
 
           {/* Message Content */}
@@ -103,31 +153,37 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
           </div>
 
           {/* Previous Reply notes if replied */}
-          {message.status === 'replied' && message.reply_notes && (
+          {message.status === "replied" && message.reply_notes && (
             <div className="p-4! bg-emerald-50! border! border-emerald-200! rounded-xl! text-sm! space-y-1!">
               <div className="flex! items-center! gap-1.5! text-emerald-800! font-semibold! text-xs!">
                 <CheckCircle2 className="w-4! h-4! text-emerald-600!" />
-                Réponse enregistrée le{' '}
+                Réponse enregistrée le{" "}
                 {message.replied_at
-                  ? new Date(message.replied_at).toLocaleDateString('fr-FR', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
+                  ? new Date(message.replied_at).toLocaleDateString("fr-FR", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })
-                  : ''}
+                  : ""}
               </div>
-              <p className="text-emerald-900! text-xs! sm:text-sm! whitespace-pre-wrap! pl-5!">{message.reply_notes}</p>
+              <p className="text-emerald-900! text-xs! sm:text-sm! whitespace-pre-wrap! pl-5!">
+                {message.reply_notes}
+              </p>
             </div>
           )}
 
           {/* Quick Reply Form */}
           {showReplyForm ? (
-            <form onSubmit={handleSendReply} className="space-y-3! p-4! bg-slate-50! rounded-xl! border! border-slate-200!">
+            <form
+              onSubmit={handleSendReply}
+              className="space-y-3! p-4! bg-slate-50! rounded-xl! border! border-slate-200!"
+            >
               <div className="flex! items-center! justify-between!">
                 <label className="text-xs! font-bold! text-[#004851]! flex! items-center! gap-1.5!">
-                  <CornerUpLeft className="w-4! h-4!" /> Répondre à {message.name} ({message.email})
+                  <CornerUpLeft className="w-4! h-4!" /> Répondre à{" "}
+                  {message.name} ({message.email})
                 </label>
                 <button
                   type="button"
@@ -140,12 +196,14 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
 
               {/* Template quick fills */}
               <div className="flex! flex-wrap! items-center! gap-1.5! text-xs! text-slate-600!">
-                <span className="text-[11px]! font-medium! text-slate-400!">Modèles rapides :</span>
+                <span className="text-[11px]! font-medium! text-slate-400!">
+                  Modèles rapides :
+                </span>
                 <button
                   type="button"
                   onClick={() =>
                     setReplyText(
-                      `Bonjour ${message.name},\n\nMerci pour votre message concernant "${message.subject}". Nous avons bien pris en compte votre demande et revenons vers vous rapidement.\n\nBien cordialement,\nL'équipe administrative`
+                      `Bonjour ${message.name},\n\nMerci pour votre message concernant "${message.subject}". Nous avons bien pris en compte votre demande et revenons vers vous rapidement.\n\nBien cordialement,\nL'équipe administrative`,
                     )
                   }
                   className="px-2! py-1! bg-white! border! border-slate-200! rounded-md! hover:bg-slate-100! text-[11px]!"
@@ -156,7 +214,7 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
                   type="button"
                   onClick={() =>
                     setReplyText(
-                      `Bonjour ${message.name},\n\nMerci de votre intérêt. Pouvons-nous convenir d'un rendez-vous téléphonique cette semaine ?\n\nCordialement,\nSophie Martin`
+                      `Bonjour ${message.name},\n\nMerci de votre intérêt. Pouvons-nous convenir d'un rendez-vous téléphonique cette semaine ?\n\nCordialement,\nSophie Martin`,
                     )
                   }
                   className="px-2! py-1! bg-white! border! border-slate-200! rounded-md! hover:bg-slate-100! text-[11px]!"
@@ -195,17 +253,17 @@ export const ContactDetailModal: React.FC<ContactDetailModalProps> = ({
                 Répondre au message
               </button>
 
-              {message.status !== 'read' && message.status !== 'replied' && (
+              {message.status !== "read" && message.status !== "replied" && (
                 <button
                   type="button"
-                  onClick={() => updateMessageStatus(message.id, 'read')}
+                  onClick={() => updateMessageStatus(message.id, "read")}
                   className="px-3! py-2! text-xs! font-medium! text-slate-700! bg-slate-100! hover:bg-slate-200! rounded-xl! cursor-pointer!"
                 >
                   Marquer comme lu
                 </button>
               )}
 
-              {message.status !== 'archived' && (
+              {message.status !== "archived" && (
                 <button
                   type="button"
                   onClick={() => {

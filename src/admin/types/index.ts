@@ -25,6 +25,7 @@ export interface ContactMessage {
   name: string;
   email: string;
   subject: string;
+  phone?: string;
   message: string;
   organization?: string; 
   created_at: string;
