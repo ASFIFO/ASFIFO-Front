@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import type { Article } from '../../types';
 import { Link } from 'react-router-dom';
 import {

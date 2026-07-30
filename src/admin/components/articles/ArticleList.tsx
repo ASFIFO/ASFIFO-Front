@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import type { Article, ArticleStatusFilter } from '../../types';
 import { ArticleFormModal } from './ArticleFormModal';
 import { ArticleDetailModal } from './ArticleDetailModal';

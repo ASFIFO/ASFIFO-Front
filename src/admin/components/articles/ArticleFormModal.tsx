@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { Article } from '../../types';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import { RichTextEditor } from './RichTextEditor';
 import { sampleImagePresets } from '../../data/initialData';
 import { X, Sparkles, Image as ImageIcon, Plus, Tag as TagIcon, Upload, Check } from 'lucide-react';
@@ -11,6 +11,9 @@ interface ArticleFormModalProps {
   articleToEdit?: Article | null;
 }
 
+const DEFAULT_IMAGE =
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80';
+
 export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
   isOpen,
   onClose,
@@ -18,43 +21,20 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
 }) => {
   const { addArticle, updateArticle, uploadArticleImage } = useData();
 
-  const [title, setTitle] = useState('');
-  const [excerpt, setExcerpt] = useState('');
-  const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  // Initialisation directe depuis articleToEdit — plus de useEffect + setState en cascade.
+  // Le composant doit être remonté via une prop `key` (voir ArticleList.tsx) à chaque
+  // changement d'article édité ou passage création/édition pour que ces valeurs se réinitialisent.
+  const [title, setTitle] = useState(articleToEdit?.title ?? '');
+  const [excerpt, setExcerpt] = useState(articleToEdit?.excerpt ?? '');
+  const [content, setContent] = useState(articleToEdit?.content ?? '');
+  const [imageUrl, setImageUrl] = useState(articleToEdit?.image_url ?? DEFAULT_IMAGE);
   const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [featured, setFeatured] = useState(false);
-  const [isPublished, setIsPublished] = useState(true);
-  const [author, setAuthor] = useState('Sophie Martin');
+  const [tags, setTags] = useState<string[]>(articleToEdit?.tags ?? ['Technologie', 'Web']);
+  const [featured, setFeatured] = useState(articleToEdit?.featured ?? false);
+  const [isPublished, setIsPublished] = useState(articleToEdit?.is_published ?? true);
+  const [author, setAuthor] = useState(articleToEdit?.author || 'Sophie Martin');
   const [showPresets, setShowPresets] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
-
-
-  useEffect(() => {
-    if (articleToEdit) {
-      setTitle(articleToEdit.title);
-      setExcerpt(articleToEdit.excerpt);
-      setContent(articleToEdit.content);
-      setImageUrl(articleToEdit.image_url);
-      setTags(articleToEdit.tags || []);
-      setFeatured(articleToEdit.featured);
-      setIsPublished(articleToEdit.is_published);
-      setImageFile(null); 
-      setAuthor(articleToEdit.author || 'Sophie Martin');
-    } else {
-      // Reset form
-      setTitle('');
-      setExcerpt('');
-      setContent('');
-      setImageUrl('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80');
-      setTags(['Technologie', 'Web']);
-      setFeatured(false);
-      setIsPublished(true);
-      setImageFile(null); 
-      setAuthor('Sophie Martin');
-    }
-  }, [articleToEdit, isOpen]);
 
   if (!isOpen) return null;
 
@@ -71,45 +51,46 @@ export const ArticleFormModal: React.FC<ArticleFormModalProps> = ({
     setTags(tags.filter((t) => t !== tagToRemove));
   };
 
-
-const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  setImageFile(file);
-  setImageUrl(URL.createObjectURL(file)); // aperçu local immédiat, sans base64
-};
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!title.trim() || !content.trim()) return;
-
-  const payload = {
-    title,
-    excerpt,
-    content,
-    ...(!imageFile && {
-      image_url: imageUrl || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
-    }),
-    tags,
-    featured,
-    is_published: isPublished,
-    author,
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImageUrl(URL.createObjectURL(file)); // aperçu local immédiat, sans base64
   };
 
-  let savedArticle: Article | undefined;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim() || !content.trim()) return;
 
-  if (articleToEdit) {
-    await updateArticle(articleToEdit.id, payload);
-    savedArticle = { ...articleToEdit, ...payload };
-  } else {
-    savedArticle = await addArticle(payload as Omit<Article, 'id' | 'created_at' | 'updated_at' | 'views'>);
-  }
+    const payload = {
+      title,
+      excerpt,
+      content,
+      ...(!imageFile && {
+        image_url: imageUrl || DEFAULT_IMAGE,
+      }),
+      tags,
+      featured,
+      is_published: isPublished,
+      author,
+    };
 
-  if (imageFile && savedArticle) {
-    await uploadArticleImage(savedArticle.id, imageFile);
-  }
+    let savedArticle: Article | undefined;
 
-  onClose();
-};
+    if (articleToEdit) {
+      await updateArticle(articleToEdit.id, payload);
+      savedArticle = { ...articleToEdit, ...payload };
+    } else {
+      savedArticle = await addArticle(payload as Omit<Article, 'id' | 'created_at' | 'updated_at' | 'views'>);
+    }
+
+    if (imageFile && savedArticle) {
+      await uploadArticleImage(savedArticle.id, imageFile);
+    }
+
+    onClose();
+  };
+
   return (
     <div className="fixed! inset-0! z-50! flex! items-center! justify-center! p-4! bg-slate-900/50! backdrop-blur-xs! animate-in! fade-in! duration-200! overflow-y-auto!">
       <div className="bg-white! rounded-2xl! shadow-xl! max-w-3xl! w-full! p-6! sm:p-8! border! border-slate-100! relative! my-8! max-h-[90vh]! flex! flex-col!">

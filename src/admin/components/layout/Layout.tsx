@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import { ToastContainer } from '../common/ToastContainer';
 import { DataModal } from '../common/DataModal';
 import { ConfirmModal } from '../common/ConfirmModal';

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import type { ContactMessage, MessageStatusFilter, ContactMessageStatus } from '../../types';
 import { ContactDetailModal } from './ContactDetailModal';
 import { ConfirmModal } from '../common/ConfirmModal';

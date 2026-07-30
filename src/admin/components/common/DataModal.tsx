@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useData } from '../../context/DataContext';
+import { useData } from '../../hooks/useData';
 import { Download, Upload, RefreshCw, X, Copy, Check, Database } from 'lucide-react';
 
 interface DataModalProps {

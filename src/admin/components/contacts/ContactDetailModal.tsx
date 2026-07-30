@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { ContactMessage, ContactMessageStatus } from "../../types";
-import { useData } from "../../context/DataContext";
+import { useData } from "../../hooks/useData";
 import {
   X,
   Send,
