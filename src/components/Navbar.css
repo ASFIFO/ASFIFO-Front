@@ -49,10 +49,10 @@
   text-decoration: none;
 }
 .jewel-brand-logo {
-  height: 48px;
+  position: absolute;
+  height: 150px;
   width: auto;
   border-radius: 8px;
-  background: #ffffff;
   padding: 4px 10px;
 }
 

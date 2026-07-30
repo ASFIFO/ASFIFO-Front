@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import AppAdmin from './admin/App';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
+import ArticleDetail from './pages/blogdetails';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/a-propos" element={<About />} />
           <Route path="/formations" element={<Formations />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<ArticleDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           

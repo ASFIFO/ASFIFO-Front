@@ -45,7 +45,7 @@ const contactChannels = [
   {
     icon: Phone,
     title: "Appelez-nous",
-    lines: ["(+261) 20 22 436 48", "Lun - Ven, 8h - 17h"],
+    lines: ["032 05 436 49", "Lun - Ven, 8h - 17h"],
   },
   {
     icon: MapPin,

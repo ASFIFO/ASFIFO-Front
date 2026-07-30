@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import logo from '../assets/LOGO_ASFIFO_DEF.png'
 
 type NavbarProps = {
   showAfterScroll?: boolean;
@@ -53,7 +54,7 @@ export default function Navbar({ showAfterScroll = false }: NavbarProps) {
       <div className="top-navbar-inner">
         <Link to="/" className="jewel-brand">
           <img
-            src="https://www.asfifo.mg/wp-content/uploads/2023/08/Logo-1.png"
+            src={logo}
             alt="ASFIFO Formation"
             className="jewel-brand-logo"
           />
@@ -73,9 +74,9 @@ export default function Navbar({ showAfterScroll = false }: NavbarProps) {
 
         <ul className={`jewel-menu ${isMenuOpen ? "open" : ""}`}>
           <li><Link to="/" onClick={closeMenu}>Accueil</Link></li>
+          <li><Link to="/a-propos" onClick={closeMenu}>À propos</Link></li>
           <li><Link to="/formations" onClick={closeMenu}>Formations</Link></li>
           <li><Link to="/blog" onClick={closeMenu}>Actualités</Link></li>
-          <li><Link to="/a-propos" onClick={closeMenu}>À propos</Link></li>
           <li><Link to="/contact" className="contact-btn" onClick={closeMenu}>Contact</Link></li>
         </ul>
       </div>

@@ -128,7 +128,7 @@ export default function Blog() {
               )}
 
               {featured && (
-                <Link to={`/actualites/${featured.slug}`} className="blog-featured">
+                <Link to={`/blog/${featured.slug}`} className="blog-featured">
                   <div className="blog-featured-image">
                     <img src={featured.image_url || FALLBACK_IMAGE} alt={featured.title} />
                     <div className="blog-tag-pills">
@@ -158,7 +158,7 @@ export default function Blog() {
               <div className="blog-grid">
                 {rest.map((article) => (
                   <Link
-                    to={`/actualites/${article.slug}`}
+                    to={`/blog/${article.slug}`}
                     key={article.id}
                     className="blog-card"
                   >
