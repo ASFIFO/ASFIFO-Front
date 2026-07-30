@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PartnersCarousel from "../components/PartnersCarousel";
+import FormationsFilter from "../components/formations";
 import "./Formations.css";
 import {
   ChevronRight,
@@ -129,8 +130,10 @@ export default function Formations() {
           </p>
         </div>
       </header>
-
       {/* Vue d'ensemble */}
+      <div className="md:mx-20!">
+      <FormationsFilter />
+      </div>
       <section className="formations-section">
         <div className="formations-container">
           <span className="formations-eyebrow">Nos programmes</span>

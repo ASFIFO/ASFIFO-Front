@@ -4,7 +4,7 @@ import "./PartnersCarousel.css";
 
 const partners = [
   {
-    name: "Camoi",
+    name: "Camoi 3.0",
     logo: "https://www.asfifo.mg/wp-content/uploads/2024/07/Camoi_30.svg",
   },
   {

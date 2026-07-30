@@ -12,7 +12,8 @@
    Design Tokens & Root Variables
    Pantone 316 C (teal) and Pantone 511 U (mauve) are the site's brand colors.
    ========================================================================== */
-:root {
+
+   :root {
   --text: #1E2626;
   --text-h: #0e1414;
   --bg: #fff;
@@ -30,6 +31,13 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+    --spacing-section-py: clamp(5rem, 8vw, 8rem);
+  --spacing-card-padding-y: clamp(1.75rem, 3.5vw, 2.5rem);
+  --spacing-card-padding-x: clamp(1.75rem, 3.5vw, 2.5rem);
+  --spacing-card-gap: clamp(1.75rem, 3vw, 2.5rem);
+  --spacing-section-title-mb: clamp(3rem, 5vw, 5rem);
+  --spacing-gallery-gap: clamp(1rem, 2vw, 1.5rem);
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -40,6 +48,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  
   @media (max-width: 1024px) {
     font-size: 16px;
   }
