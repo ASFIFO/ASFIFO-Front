@@ -10,25 +10,26 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import PartnersCarousel from "../components/PartnersCarousel";
 import "./Home.css";
+import { whatsappImages } from "../components/data/formations";
 
 const trainings = [
   {
     id: "audit-interne",
     name: "Audit interne",
     description: "Maîtrisez les diligences et méthodes de l'audit interne.",
-    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&q=80",
+    img: whatsappImages[0],
   },
   {
     id: "audit-comptable",
     name: "Audit comptable et financier",
     description: "Analysez et fiabilisez l'information financière.",
-    img: "https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=400&q=80",
+    img: whatsappImages[1],
   },
   {
     id: "comptabilite",
     name: "Comptabilité",
     description: "Les diverses diligences du métier comptable.",
-    img: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=80",
+    img: whatsappImages[2],
   },
 ];
 
@@ -100,7 +101,7 @@ export default function Home() {
 
               <div className="hero-card detail-card">
                 <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80"
+                  src={whatsappImages[5]}
                   alt="Parcours dirigeants en entrepreneuriat"
                 />
                 <div>
@@ -172,7 +173,7 @@ export default function Home() {
         </div>
         <img
           className="art-side-img"
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&q=80"
+          src={whatsappImages[3]}
           alt="Formation en comptabilité"
         />
       </section>
