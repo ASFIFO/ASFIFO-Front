@@ -1,12 +1,11 @@
 
 export const whatsappImages = [
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.20.jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.21.jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.22 (1).jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.22.jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.23 (1).jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.23 (2).jpeg', import.meta.url).href,
-  new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.23.jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.34 (1).jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.34.jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.35.jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.50 (1).jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.50.jpeg', import.meta.url).href,
+  new URL('../../assets/WhatsApp Image 2026-08-03 at 10.12.51 (2).jpeg', import.meta.url).href,
   new URL('../../assets/WhatsApp Image 2026-07-28 at 08.42.24.jpeg', import.meta.url).href,
 ]
 
@@ -70,7 +69,7 @@ export const formations: Formation[] = [
     duration: '3 mois',
     level: 'Avancé',
     category: 'Formation continue',
-    image: whatsappImages[6],
+    image: whatsappImages[0],
     features: ['Impôt sur les sociétés', 'TVA', 'Fiscalité internationale', 'Optimisation fiscale'],
   },
   {
@@ -80,7 +79,7 @@ export const formations: Formation[] = [
     duration: '4 mois',
     level: 'Intermédiaire',
     category: 'Management',
-    image: whatsappImages[7],
+    image: whatsappImages[5],
     features: ['Leadership', 'Gestion d\'équipe', 'Communication', 'Stratégie'],
   },
 ]

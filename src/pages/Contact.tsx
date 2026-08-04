@@ -40,7 +40,7 @@ const contactChannels = [
   {
     icon: Mail,
     title: "Écrivez-nous",
-    lines: ["contact@asfifo.mg", "Nous répondons rapidement à vos e-mails."],
+    lines: ["communication@asfifo.mg", "recrutement@asfifo.mg"],
   },
   {
     icon: Phone,
@@ -131,14 +131,14 @@ export default function Contact() {
       await api.post("/contact-messages", form);
       setStatus("success");
       setForm(initialForm);
-    } 
+    }
     catch (err: unknown) {
-  setStatus("error");
-  
-  if (isAxiosError(err) && err.response?.status === 422) {
-    setErrors(err.response.data?.errors || {});
-  }
-}
+      setStatus("error");
+
+      if (isAxiosError(err) && err.response?.status === 422) {
+        setErrors(err.response.data?.errors || {});
+      }
+    }
   };
 
   return (
@@ -353,9 +353,8 @@ export default function Contact() {
                     >
                       {item.q}
                       <ChevronDown
-                        className={`icon-sm faq-chevron ${
-                          isOpen ? "faq-chevron-open" : ""
-                        }`}
+                        className={`icon-sm faq-chevron ${isOpen ? "faq-chevron-open" : ""
+                          }`}
                       />
                     </button>
                     {isOpen && <p className="faq-answer">{item.a}</p>}
