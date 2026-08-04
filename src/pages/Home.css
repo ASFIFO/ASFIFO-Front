@@ -24,7 +24,7 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  background: url("https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600&q=80")
+  background: url("../assets/WhatsApp Image 2026-07-28 at 08.42.20.jpeg")
     center/cover no-repeat;
   display: flex;
   align-items: center;

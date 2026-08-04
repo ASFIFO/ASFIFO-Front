@@ -20,7 +20,7 @@ const formations = [
     icon: ShieldCheck,
     title: "Audit interne",
     summary: "La maîtrise de la démarche et des outils de l'auditeur est l'objet de cette formation.",
-    image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=700&q=80",
+    image: "https://i.pinimg.com/1200x/04/6d/a7/046da75f7ccc468073da4bfec3b58f06.jpg",
     context: [
       "La fonction d'auditeur interne est très fréquemment exercée par des cadres expérimentés qui, dans certains cas, n'ont pas été préparés à exercer cette activité nouvelle par leur parcours professionnel ni par leurs études. Or, l'audit est une technique qui connaît ses propres règles et fait appel à des compétences précises qu'il est indispensable d'acquérir. La réussite d'une mission d'audit interne nécessite la maîtrise de la démarche et des outils de l'auditeur.",
       "Cette formation ne s'adresse pas aux personnes en charge des audits qualité, sécurité, environnement.",
@@ -37,7 +37,7 @@ const formations = [
     icon: BarChart3,
     title: "Audit comptable et financier",
     summary: "Allié des décideurs financiers, l'audit comptable et financier permet le contrôle des risques et est garant de la fiabilité des états financiers.",
-    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80",
+    image: "https://i.pinimg.com/736x/be/fd/dd/befddd6f1a22fc176dd3060309240a2d.jpg",
     context: [
       "Dans un environnement où le contrôle des risques et la fiabilité des états financiers sont au premier plan des préoccupations des décideurs financiers, la maîtrise des outils et des techniques d'audit s'impose pour assurer les missions d'audit.",
       "À l'issue de cette formation, vous serez en mesure de mettre en œuvre la démarche de l'audit comptable et financier.",
@@ -54,7 +54,7 @@ const formations = [
     icon: Calculator,
     title: "Comptabilité",
     summary: "De la saisie à l'établissement des états financiers, les diverses diligences du métier comptable seront vues dans toutes ses facettes.",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80",
+    image: "https://i.pinimg.com/736x/e0/57/69/e05769481ae916a8e3c7d192893af1cc.jpg",
     context: [
       "Depuis toujours, penser comptabilité c'est penser chiffres. Cependant, le besoin des dirigeants d'entreprises actuels est de disposer de données fiables reflétant la situation de leur entité. La comptabilité n'est plus un simple état chiffré, elle est devenue « un outil de gestion et de décision ».",
       "Ce parcours de formation répond à une demande et une nécessité de collaborateurs comptables opérationnels, compétents et éthiques, capables de tenir une comptabilité à jour et exhaustive. Une formation axée dans sa grande partie sur la pratique et l'apprentissage de toutes les diligences comptables.",
