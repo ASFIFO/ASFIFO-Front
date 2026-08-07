@@ -10,6 +10,13 @@ import {
   GraduationCap,
   Wrench,
   Handshake,
+  ShieldCheck,
+  Award,
+  Compass,
+  Users,
+  CheckCircle2,
+  UserCheck,
+  Layers,
 } from "lucide-react";
 import founderPhoto from "../assets/founder-tantely.png";
 import dirigeantsTpePme from "../assets/realisations/dirigeants-tpe-pme.png";
@@ -34,6 +41,37 @@ const observations = [
   },
 ];
 
+const valuesList = [
+  {
+    icon: ShieldCheck,
+    title: "Éthique",
+    text: "Maintenir l'Indépendance, l'Intégrité et l'Impartialité en toutes circonstances.",
+  },
+  {
+    icon: Award,
+    title: "Compétence",
+    text: "Assurer continuellement la qualité de nos services et enseignements.",
+  },
+  {
+    icon: Compass,
+    title: "Vision",
+    text: "Construire sa stratégie pour planifier et décider avec efficacité.",
+  },
+  {
+    icon: Users,
+    title: "Partage",
+    text: "Travailler avec l'ensemble des parties prenantes pour atteindre une performance globale.",
+  },
+];
+
+const visionPillars = [
+  "Les principes fondamentaux de la comptabilité",
+  "Les travaux de base comptable (saisie, journaux, lettrage)",
+  "Les travaux d'analyse et de révision des comptes",
+  "Les travaux de clôture (amortissements, provisions, états financiers)",
+  "Les obligations de déclarations fiscales et sociales",
+];
+
 const contextStats = [
   { value: "200 000+", label: "Sociétés recensées à Madagascar" },
   { value: "75%", label: "Des TPE/PME dans le secteur agricole" },
@@ -41,21 +79,60 @@ const contextStats = [
   { value: "40%", label: "Des TPE/PME disparaissent en 3 à 4 ans" },
 ];
 
+const teamMembers = [
+  {
+    name: "Tantely RAHOELIARIVAHY RAJOBSON",
+    role: "Fondatrice & Expert-Comptable",
+    desc: "Diplômée de France, inscrite au Tableau A de l'OECFM. Présidente de la Commission Éthique & Déontologie de l'OECFM, VP CJD Mada. 15+ ans d'expériences en expertise comptable, audit et enseignement Master II.",
+    badge: "Expert-comptable",
+  },
+  {
+    name: "Philippe RICOUL",
+    role: "Formateur Parcours Dirigeants",
+    desc: "Expert en accompagnement stratégique des chefs d'entreprises, coaching professionnel, management et leadership.",
+    badge: "Management & Coaching",
+  },
+  {
+    name: "Niaina RANDRIAMALALA",
+    role: "Expert-Comptable & Formateur",
+    desc: "Expert-comptable diplômé, spécialisé en audit financier, révision comptable et ingénierie de formation.",
+    badge: "Audit & Comptabilité",
+  },
+  {
+    name: "Liva RAKOTONANAHARY",
+    role: "Formateur Comptable Expérimenté",
+    desc: "Comptable praticien fort d'une longue expérience en cabinet d'expertise comptable et en entreprise.",
+    badge: "Comptabilité praticienne",
+  },
+  {
+    name: "Victoire RANDRIAMORASATA",
+    role: "Formatrice Comptable Expérimentée",
+    desc: "Spécialiste de la gestion comptable, paie et déclarations sociales auprès des TPE/PME et cabinets.",
+    badge: "Paie & Gestion",
+  },
+  {
+    name: "Noromalala ANDRIAMANALINARIVO",
+    role: "Responsable Corps Administratif",
+    desc: "Coordination pédagogique, gestion des dossiers des apprenants et suivi des parcours de formation.",
+    badge: "Administration",
+  },
+];
+
 const parcours = [
   {
     title: "Formation Professionnelle Métier Comptable",
-    duration: "6 mois",
-    text: "Formation en alternance pour des comptables opérationnels en entreprise.",
+    duration: "3 mois (420h)",
+    text: "Formation en alternance ou initiale pour former des comptables immédiatement opérationnels en entreprise.",
   },
   {
-    title: "Parcours dirigeants",
-    duration: "12 mois",
-    text: "Destiné aux dirigeants de TPE/PME, pour atteindre la performance globale du dirigeant et de son entreprise, au service de la croissance et de la pérennisation de son activité.",
+    title: "Parcours Dirigeants et Cadres",
+    duration: "À la carte (3 à 12 mois)",
+    text: "Destiné aux dirigeants de TPE/PME, pour atteindre la performance globale du dirigeant et de son entreprise.",
   },
   {
-    title: "Formation en entrepreneuriat Jeunesse",
-    duration: "10 mois",
-    text: "Pour les étudiants (niveau licence minimum), afin de révéler leur potentiel entrepreneurial et les accompagner dans la réalisation de leur projet.",
+    title: "Formation en Entrepreneuriat Jeunesse",
+    duration: "6 à 10 mois",
+    text: "Pour les étudiants (niveau Licence minimum), afin de révéler leur potentiel entrepreneurial et concrétiser leur Business Plan.",
   },
 ];
 
@@ -73,7 +150,7 @@ const approach = [
   {
     icon: Handshake,
     title: "Accompagnement après formation",
-    text: "Un suivi post-formation pour aider chaque participant à mettre en pratique ce qu'il a appris.",
+    text: "Un suivi post-formation et un accompagnement jusqu'à l'obtention d'une entreprise d'accueil pour la période de stage.",
   },
 ];
 
@@ -120,7 +197,7 @@ export default function About() {
         <span>JF Kennedy</span>
       </section>
 
-      {/* Qui sommes-nous */}
+      {/* Qui sommes-nous & Historique CAMOI */}
       <section className="about-section">
         <div className="about-container about-who-grid">
           <div className="about-who-photo">
@@ -135,17 +212,15 @@ export default function About() {
           </div>
 
           <div className="about-who-content">
-            <span className="about-eyebrow">Qui sommes-nous</span>
+            <span className="about-eyebrow">Qui sommes-nous & Historique</span>
             <h2 className="about-section-title">
-              La formation est une question de passion, pas seulement de compétences
+              Près de 10 ans d'existence au service de la formation professionnelle métier
             </h2>
             <p className="about-text">
-              ASFIFO — Asa Fiofanana Foibe — est un Centre de Formation
-              Professionnelle Métier spécialisé dans l'apprentissage en
-              alternance. Sa vocation : mettre l'expérience et la compétence
-              de son équipe au service des jeunes issus de filières en
-              comptabilité, ainsi que des dirigeants de TPE/PME, en
-              particulier du secteur agricole.
+              Le cabinet CAMOI a été créé début 2008 par un Expert-Comptable - Commissaire aux Comptes diplomé en France et inscrit à l'Ordre des Experts Comptables et Financiers Malgaches (OECFM). Forte de cette expertise terrain, l'entité <strong>ASFIFO (Asa Fiofanana Foibe)</strong> a été intégrée au groupe en septembre 2016 comme Centre de Formation Professionnelle Métier.
+            </p>
+            <p className="about-text">
+              Notre vocation : répondre à la demande croissante des entreprises en matière de fiabilité des données financières en préparant les jeunes diplômés (Bacc+2/3) et les collaborateurs d'entreprises à devenir immédiatement opérationnels.
             </p>
 
             <div className="about-who-points">
@@ -176,18 +251,58 @@ export default function About() {
         </div>
       </section>
 
-      {/* Contexte */}
+      {/* Nos 4 Valeurs & Vision */}
       <section className="about-section about-section-alt">
         <div className="about-container">
-          <span className="about-eyebrow">Contexte</span>
+          <div className="about-values-header">
+            <span className="about-eyebrow">Nos engagements</span>
+            <h2 className="about-section-title">Nos 4 Valeurs Fondamentales & Notre Vision</h2>
+            <p className="about-text" style={{ maxWidth: "700px" }}>
+              Le groupe CAMOI et le centre ASFIFO s'attachent à mettre en pratique 4 grandes valeurs pour réunir l'excellence technique et le développement éthique.
+            </p>
+          </div>
+
+          <div className="about-values-grid">
+            {valuesList.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="about-value-card">
+                <div className="about-value-icon">
+                  <Icon className="icon-md" />
+                </div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="about-vision-box">
+            <div className="about-vision-title-row">
+              <Layers className="icon-md text-accent" />
+              <h3>Notre Vision Pédagogique</h3>
+            </div>
+            <p className="about-text">
+              Notre ambition est qu'à l'issue de leur session de formation de 3 mois (420h), nos apprenants maîtrisent parfaitement les 5 axes essentiels :
+            </p>
+            <ul className="about-vision-list">
+              {visionPillars.map((pillar) => (
+                <li key={pillar}>
+                  <CheckCircle2 className="icon-sm text-accent" />
+                  <span>{pillar}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Contexte économique */}
+      <section className="about-section">
+        <div className="about-container">
+          <span className="about-eyebrow">Contexte économique</span>
           <h2 className="about-section-title about-context-title">
             Un besoin croissant de fiabilité et d'accompagnement
           </h2>
           <p className="about-text about-context-text">
-            Notre concept de formation professionnelle métier en alternance
-            de « Comptable » répond à une demande croissante des entreprises,
-            due à un besoin de fiabilité de leurs données financières. Sur le
-            terrain des TPE/PME malgaches, le constat est sans appel :
+            Les études du Doing Business soulignent les défis majeurs des entreprises malgaches concernant l'accès au crédit, l'emploi et la création d'entreprises. Notre concept de formation métier répond directement à cette exigence du marché :
           </p>
 
           <div className="about-stats-grid">
@@ -202,11 +317,11 @@ export default function About() {
       </section>
 
       {/* Fondatrice */}
-      <section className="about-section">
+      <section className="about-section about-section-alt">
         <div className="about-container about-team">
           <span className="about-eyebrow">Notre fondatrice</span>
           <h2 className="about-section-title about-team-title">
-            Une expertise au service de votre réussite
+            Une expertise certifiée au service de votre réussite
           </h2>
 
           <div className="about-team-card">
@@ -215,23 +330,45 @@ export default function About() {
               alt="Tantely Rahoeliarivahy Rajobson, fondatrice d'ASFIFO"
               className="about-team-avatar-photo"
             />
-            <h3>Tantely Rahoeliarivahy Rajobson</h3>
-            <p className="about-team-role">Fondatrice — Expert-comptable et Commissaire aux comptes</p>
+            <h3>Tantely RAHOELIARIVAHY RAJOBSON</h3>
+            <p className="about-team-role">Fondatrice — Expert-Comptable & Commissaire aux Comptes (OECFM)</p>
             <p className="about-team-bio">
-              Diplômée de Paris, également enseignante et formatrice depuis
-              plus de 15 ans, elle a fondé ASFIFO après avoir constaté que le
-              manque d'accompagnement des dirigeants de TPE/PME limite trop
-              souvent leur pérennité et leur croissance — alors que le
-              potentiel de production et de services reste important sur le
-              marché local et international.
+              Diplômée d'Expertise Comptable en France (mai 2004) et habilitée à exercer à Madagascar (Tableau A de l'OECFM depuis 2009). Présidente de la Commission Éthique et Déontologie de l'OECFM et Vice-Présidente du CJD Mada. Elle possède 10 ans d'expérience en ingénierie de formation et 15 ans d'expérience en comptabilité, audit et conseil.
             </p>
             <p className="about-team-bio">
-              Membre d'un mouvement de dirigeants d'entreprises composé en
-              majorité de dirigeants étrangers, elle a choisi de partager ses
-              compétences avec ses compatriotes malgaches. En tant que femme
-              chef d'entreprise, encourager l'entrepreneuriat responsable fait
-              partie de ses engagements.
+              Enseignante vacataire en Master II Audit & Contrôle à l'Université d'Ankatso (DEGS) et ancienne intervenante à l'ISCAM et à l'École Internationale de Comptabilité (EIC en partenariat avec l'INTEC France). Elle anime également des jeux d'entreprises pour dirigeants (I Nove You, Alliance Pursuit) et a formé les contrôleurs des impôts (DGI) sur la comptabilité PCG et les enjeux fiscaux.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Équipe Pédagogique & Intervenants */}
+      <section className="about-section">
+        <div className="about-container">
+          <div className="text-center mb-12">
+            <span className="about-eyebrow">Équipe & Formateurs</span>
+            <h2 className="about-section-title">Formateurs et Corps d'Encadrement</h2>
+            <p className="about-text" style={{ maxWidth: "600px", margin: "0 auto" }}>
+              Des professionnels en activité (experts-comptables, contrôleurs, dirigeants) engagés pour transmettre un savoir-faire opérationnel.
+            </p>
+          </div>
+
+          <div className="about-instructors-grid">
+            {teamMembers.map((member) => (
+              <div key={member.name} className="about-instructor-card">
+                <div className="about-instructor-header">
+                  <div className="about-instructor-avatar">
+                    <UserCheck className="icon-md" />
+                  </div>
+                  <div>
+                    <h3>{member.name}</h3>
+                    <span className="about-instructor-role">{member.role}</span>
+                  </div>
+                </div>
+                <p className="about-instructor-desc">{member.desc}</p>
+                <span className="about-instructor-badge">{member.badge}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -344,3 +481,4 @@ export default function About() {
     </div>
   );
 }
+

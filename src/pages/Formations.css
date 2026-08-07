@@ -322,3 +322,173 @@
     position: static;
   }
 }
+
+/* ===== Programme détaillé & Modules ===== */
+.formations-modules-box {
+  margin: 20px 0;
+  background: #ffffff;
+  border: 1px solid var(--f-border);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.formations-modules-box h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--f-text);
+  margin: 0 0 16px 0;
+}
+
+.formations-modules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formations-module-item {
+  background: var(--f-panel);
+  border-radius: 10px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--f-accent);
+}
+
+.formations-module-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--f-text);
+  margin: 0 0 4px 0;
+}
+
+.formations-module-item p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--f-text-muted);
+  margin: 0;
+}
+
+/* ===== Admission Grid ===== */
+.text-center {
+  text-align: center;
+}
+
+.mb-12 {
+  margin-bottom: 48px;
+}
+
+.formations-admission-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 640px) {
+  .formations-admission-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .formations-admission-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.formations-admission-card {
+  background: #ffffff;
+  border: 1px solid var(--f-border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formations-admission-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+.formations-admission-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--f-accent-bg);
+  color: var(--f-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.formations-admission-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--f-text);
+  margin: 0 0 8px 0;
+}
+
+.formations-admission-card p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--f-text-muted);
+  margin: 0;
+}
+
+/* ===== Tools Box ===== */
+.formations-tools-box {
+  background: #ffffff;
+  border: 1px solid var(--f-border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 32px;
+}
+
+.formations-tools-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.formations-tools-title-row h3 {
+  font-family: var(--f-font-serif);
+  font-size: 22px;
+  color: var(--f-text);
+  margin: 0;
+}
+
+.text-accent {
+  color: var(--f-accent);
+}
+
+.formations-tools-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .formations-tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.formations-tool-item {
+  background: var(--f-panel);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.formations-tool-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--f-text);
+  margin: 0 0 6px 0;
+}
+
+.formations-tool-item p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--f-text-muted);
+  margin: 0;
+}
+

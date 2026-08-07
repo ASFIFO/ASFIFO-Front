@@ -13,11 +13,11 @@ const footerColumns = [
   {
     title: "Formations",
     links: [
+      { label: "Formation Métier Comptable", to: "/formations#metier-comptable" },
+      { label: "Parcours dirigeants", to: "/formations#parcours-dirigeants" },
       { label: "Audit interne", to: "/formations#audit-interne" },
       { label: "Audit comptable et financier", to: "/formations#audit-comptable" },
-      { label: "Comptabilité", to: "/formations#comptabilite" },
       { label: "Initiation à l'entrepreneuriat", to: "/formations#entrepreneuriat" },
-      { label: "Parcours dirigeants", to: "/formations#parcours-dirigeants" },
     ],
   },
   {

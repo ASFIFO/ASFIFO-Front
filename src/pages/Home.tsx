@@ -14,44 +14,44 @@ import { whatsappImages } from "../components/data/formations";
 
 const trainings = [
   {
-    id: "audit-interne",
-    name: "Audit interne",
-    description: "Maîtrisez les diligences et méthodes de l'audit interne.",
-    img: whatsappImages[0],
-  },
-  {
-    id: "audit-comptable",
-    name: "Audit comptable et financier",
-    description: "Analysez et fiabilisez l'information financière.",
-    img: whatsappImages[1],
-  },
-  {
-    id: "comptabilite",
-    name: "Comptabilité",
-    description: "Les diverses diligences du métier comptable.",
+    id: "metier-comptable",
+    name: "Formation Métier Comptable",
+    description: "420 heures intensives (3 mois) pour maîtriser la comptabilité et la fiscalité.",
     img: whatsappImages[2],
+  },
+  {
+    id: "parcours-dirigeants",
+    name: "Parcours Dirigeants",
+    description: "Accompagnement à la carte pour la performance globale des chefs d'entreprise.",
+    img: whatsappImages[5],
+  },
+  {
+    id: "audit-interne",
+    name: "Audit interne et financier",
+    description: "Maîtrisez les diligences d'audit et la fiabilisation des états financiers.",
+    img: whatsappImages[0],
   },
 ];
 
 const features = [
   {
-    title: "Formateurs experts",
-    description: "Des professionnels de l'audit et de la comptabilité.",
+    title: "10 ans d'existence",
+    description: "Près de 10 ans d'expérience au service de la formation professionnelle.",
     icon: FaGraduationCap,
   },
   {
-    title: "Certification reconnue",
-    description: "Des attestations valorisées par nos partenaires.",
+    title: "1/3 théorie, 2/3 pratique",
+    description: "Alternance et certificat pour être immédiatement opérationnel.",
     icon: FaCertificate,
   },
   {
-    title: "Accompagnement personnalisé",
-    description: "Un suivi individuel tout au long du parcours.",
+    title: "Recrutements de qualité",
+    description: "Des critères de sélection basés sur la confiance, l'éthique et la compétence.",
     icon: FaUsers,
   },
   {
-    title: "Sessions flexibles",
-    description: "Formations en journée ou en soirée.",
+    title: "Accompagnement personnalisé",
+    description: "Un suivi individuel tout au long de l'immersion en entreprise.",
     icon: FaClock,
   },
 ];
@@ -84,9 +84,7 @@ export default function Home() {
                   Comptabilité, Audit et Entrepreneuriat
                 </p>
                 <p className="hero-subtitle">
-                  Un apprentissage pratique porté par des formateurs experts,
-                  pour vous accompagner jusqu'à la certification. L'avenir
-                  c'est toi qui décide.
+                  10 ans d'existence. Une pédagogie en alternance (1/3 théorie, 2/3 pratique) avec délivrance d'un certificat pour être directement opérationnel. Des recrutements de qualité fondés sur la confiance, l'éthique et les compétences.
                 </p>
               </div>
             </div>
@@ -94,8 +92,8 @@ export default function Home() {
             <div className="hero-right-content">
               <div className="hero-card clients-card">
                 <div>
-                  <h3>05</h3>
-                  <p style={{ color: "white" }}>Domaines de formation</p>
+                  <h3>10 ans</h3>
+                  <p style={{ color: "white" }}>D'existence & d'excellence</p>
                 </div>
               </div>
 
