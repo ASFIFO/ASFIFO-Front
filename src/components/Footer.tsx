@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import "./Footer.css";
 import { GraduationCap, ShieldCheck, Users, Clock } from "lucide-react";
+// Même logo local que la Navbar : l'ancienne URL distante (asfifo.mg) ne
+// chargeait pas.
+import logo from "../assets/LOGO_ASFIFO_DEF.png";
 
 const footerFeatures = [
   { icon: GraduationCap, title: "Formateurs experts", text: "Professionnels certifiés en audit et comptabilité" },
@@ -62,7 +65,7 @@ export default function Footer() {
         <div className="site-footer-grid">
           <div>
             <img
-              src="https://www.asfifo.mg/wp-content/uploads/2023/08/Logo-1.png"
+              src={logo}
               alt="ASFIFO Formation"
               className="site-footer-logo"
             />

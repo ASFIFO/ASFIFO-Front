@@ -1,5 +1,3 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import "./PartnersCarousel.css";
 
 const partners = [
@@ -8,7 +6,7 @@ const partners = [
     logo: "https://www.asfifo.mg/wp-content/uploads/2024/07/Camoi_30.svg",
   },
   {
-    name: "Experts Conseil",
+    name: "Expert Conseils",
     logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/exco-1.png",
   },
   {
@@ -19,125 +17,80 @@ const partners = [
     name: "Fedem",
     logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/Logo-1-768x768.png",
   },
+  // TODO [À CONFIRMER] : logos officiels de Rekany, Agri Export et Agri
+  // Connect à récupérer auprès de la cliente. En attendant, `logo: null`
+  // affiche un placeholder (initiales) via `.pc-logo-placeholder`.
   {
-    name: "Fivmpama",
-    logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/fivmpama.png",
+    name: "Rekany",
+    logo: null,
+  },
+  {
+    name: "Agri Export",
+    logo: null,
+  },
+  {
+    name: "Agri Connect",
+    logo: null,
   },
 ];
 
-export default function PartnersCarousel() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const rotationIndexRef = useRef(0);
-  const [isPaused, setIsPaused] = useState(false);
+// On double la liste pour garantir qu'elle remplit bien l'écran (même
+// logique que la bande des atouts de l'accueil, cf. Home.tsx).
+const extendedPartners = [...partners, ...partners];
 
-  useEffect(() => {
-    rotationIndexRef.current = activeIndex;
-  }, [activeIndex]);
+// Initiales utilisées par le placeholder tant qu'un logo n'est pas fourni.
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 3)
+    .toUpperCase();
+}
 
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
+interface Partner {
+  name: string;
+  logo: string | null;
+}
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let bestIndex = -1;
-        let bestRatio = 0;
-        entries.forEach((entry) => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-            bestIndex = index;
-            bestRatio = entry.intersectionRatio;
-          }
-        });
-        if (bestIndex >= 0) setActiveIndex(bestIndex);
-      },
-      {
-        root: track,
-        rootMargin: "0px -38% 0px -38%",
-        threshold: [0.3, 0.5, 0.7, 0.9],
-      }
-    );
-
-    itemRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Centre un élément dans le carrousel en ne faisant défiler que le
-  // conteneur horizontal (.pc-track), jamais la page : on évite ainsi
-  // scrollIntoView, qui peut aussi déplacer le scroll vertical de la page.
-  const scrollToIndex = (index: number) => {
-    const track = trackRef.current;
-    const item = itemRefs.current[index];
-    if (!track || !item) return;
-    const targetLeft = item.offsetLeft - track.clientWidth / 2 + item.offsetWidth / 2;
-    track.scrollTo({ left: targetLeft, behavior: "smooth" });
-  };
-
-  // Rotation automatique du carrousel : avance sur un compteur indépendant
-  // pour garantir un défilement réel à chaque tick, quel que soit l'élément
-  // que l'IntersectionObserver considère actuellement comme centré.
-  useEffect(() => {
-    if (isPaused) return;
-
-    const id = window.setInterval(() => {
-      rotationIndexRef.current = (rotationIndexRef.current + 1) % partners.length;
-      scrollToIndex(rotationIndexRef.current);
-    }, 2800);
-
-    return () => window.clearInterval(id);
-  }, [isPaused]);
-
-  const scrollByAmount = (dir: 1 | -1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const item = itemRefs.current[0];
-    const step = item ? item.offsetWidth + 32 : 200;
-    track.scrollBy({ left: dir * step, behavior: "smooth" });
-  };
-
+function PartnerItem({ partner }: { partner: Partner }) {
   return (
-    <div
-      className="partners-carousel"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <button
-        type="button"
-        className="pc-nav pc-nav-prev"
-        aria-label="Partenaire précédent"
-        onClick={() => scrollByAmount(-1)}
-      >
-        <ChevronLeft className="pc-nav-icon" />
-      </button>
-
-      <div className="pc-track" ref={trackRef}>
-        {partners.map((partner, index) => (
-          <div
-            key={partner.name}
-            className={`pc-item ${index === activeIndex ? "pc-item-active" : ""}`}
-            data-index={index}
-            ref={(el) => {
-              itemRefs.current[index] = el;
-            }}
-          >
-            <div className="pc-logo-wrap">
-              <img src={partner.logo} alt={partner.name} className="pc-logo" />
-            </div>
-            <p className="pc-name">{partner.name}</p>
-          </div>
-        ))}
+    <div className="pc-item">
+      <div className="pc-logo-wrap">
+        {partner.logo ? (
+          <img src={partner.logo} alt={partner.name} className="pc-logo" />
+        ) : (
+          <span className="pc-logo-placeholder" aria-hidden="true">
+            {getInitials(partner.name)}
+          </span>
+        )}
       </div>
+      <p className="pc-name">{partner.name}</p>
+    </div>
+  );
+}
 
-      <button
-        type="button"
-        className="pc-nav pc-nav-next"
-        aria-label="Partenaire suivant"
-        onClick={() => scrollByAmount(1)}
-      >
-        <ChevronRight className="pc-nav-icon" />
-      </button>
+// Défilement continu (marquee), comme la bande des atouts de l'accueil,
+// plutôt qu'un carrousel par étapes : plus de saut d'un partenaire à
+// l'autre, la bande glisse en boucle et se met en pause au survol.
+export default function PartnersCarousel() {
+  return (
+    <div className="partners-carousel" aria-label="Nos partenaires">
+      <div className="pc-track">
+        {/* Premier groupe */}
+        <div className="pc-group">
+          {extendedPartners.map((partner, index) => (
+            <PartnerItem key={`group1-${partner.name}-${index}`} partner={partner} />
+          ))}
+        </div>
+
+        {/* Deuxième groupe identique pour une boucle parfaite */}
+        <div className="pc-group" aria-hidden="true">
+          {extendedPartners.map((partner, index) => (
+            <PartnerItem key={`group2-${partner.name}-${index}`} partner={partner} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -83,7 +83,7 @@ const teamMembers = [
   {
     name: "Tantely RAHOELIARIVAHY RAJOBSON",
     role: "Fondatrice & Expert-Comptable",
-    desc: "Diplômée de France, inscrite au Tableau A de l'OECFM. Présidente de la Commission Éthique & Déontologie de l'OECFM, VP CJD Mada. 15+ ans d'expériences en expertise comptable, audit et enseignement Master II.",
+    desc: "Diplômée de France, inscrite au Tableau A de l'OECFM. Présidente de la Commission Éthique & Déontologie de l'OECFM, Présidente de la FEDEM. 15+ ans d'expériences en expertise comptable, audit et enseignement Master II.",
     badge: "Expert-comptable",
   },
   {
@@ -154,13 +154,18 @@ const approach = [
   },
 ];
 
+// TODO [À CONFIRMER] : la cliente souhaite mettre en avant des réalisations
+// dédiées à la formation des femmes en milieu rural. Aucune réalisation
+// existante ne correspond précisément à cette thématique — ajouter l'entrée
+// (titre / date / photo) dès qu'elle sera communiquée, plutôt que d'étiqueter
+// une réalisation existante par erreur.
 const realisations = [
   { title: "Formation de dirigeants TPE/PME", date: "Décembre 2018", image: dirigeantsTpePme },
   { title: "Formation comptable en alternance", date: "Session 2018", image: comptableAlternance },
   { title: "Conférence sur l'entrepreneuriat — CFFAMMA Antsirabe", date: "Juin 2019", image: cffammaConference },
   { title: "Atelier pratique sur l'entrepreneuriat — CFFAMMA Antsirabe", date: "Juin 2019", image: cffammaAtelier },
   { title: "Conférence sur l'entrepreneuriat — Université IMGAM", date: "Février 2020", image: imgamConference },
-  { title: "Sensibilisation à l'entrepreneuriat des jeunes — Ambatolampy", date: "Mars 2020", image: ambatolampyConference },
+  { title: "Sensibilisation à l'entrepreneuriat des jeunes — Ambatolampy", date: "Mars 2020", image: ambatolampyConference, tags: ["Jeunesse"] },
   { title: "Conférence sur l'entrepreneuriat — Université d'ITASY", date: "Décembre 2019", image: itasyConference },
   { title: "Montage de projet et Business Plan — Université d'ITASY", date: "Décembre 2020", image: itasyMontageProjet },
 ];
@@ -313,6 +318,10 @@ export default function About() {
               </div>
             ))}
           </div>
+
+          {/* TODO [À CONFIRMER] : source exacte de ces statistiques à obtenir
+              auprès de la cliente (étude Doing Business ? INSTAT ? autre ?). */}
+          <p className="about-stats-source">Source : à confirmer</p>
         </div>
       </section>
 
@@ -333,7 +342,7 @@ export default function About() {
             <h3>Tantely RAHOELIARIVAHY RAJOBSON</h3>
             <p className="about-team-role">Fondatrice — Expert-Comptable & Commissaire aux Comptes (OECFM)</p>
             <p className="about-team-bio">
-              Diplômée d'Expertise Comptable en France (mai 2004) et habilitée à exercer à Madagascar (Tableau A de l'OECFM depuis 2009). Présidente de la Commission Éthique et Déontologie de l'OECFM et Vice-Présidente du CJD Mada. Elle possède 10 ans d'expérience en ingénierie de formation et 15 ans d'expérience en comptabilité, audit et conseil.
+              Diplômée d'Expertise Comptable en France (mai 2004) et habilitée à exercer à Madagascar (Tableau A de l'OECFM depuis 2009). Présidente de la Commission Éthique et Déontologie de l'OECFM et Présidente de la FEDEM, qui regroupe des dirigeants du secteur public et privé. Elle possède 10 ans d'expérience en ingénierie de formation et 15 ans d'expérience en comptabilité, audit et conseil.
             </p>
             <p className="about-team-bio">
               Enseignante vacataire en Master II Audit & Contrôle à l'Université d'Ankatso (DEGS) et ancienne intervenante à l'ISCAM et à l'École Internationale de Comptabilité (EIC en partenariat avec l'INTEC France). Elle anime également des jeux d'entreprises pour dirigeants (I Nove You, Alliance Pursuit) et a formé les contrôleurs des impôts (DGI) sur la comptabilité PCG et les enjeux fiscaux.
@@ -451,6 +460,12 @@ export default function About() {
           <h2 className="about-section-title about-team-title">
             Quelques réalisations
           </h2>
+          <p className="about-text" style={{ maxWidth: "760px" }}>
+            Nos actions couvrent la formation des jeunes, la formation des
+            femmes en milieu rural et l'entrepreneuriat rural, à travers des
+            sessions de formation, des conférences et des ateliers organisés
+            dans plusieurs régions de Madagascar.
+          </p>
 
           <div className="about-realisations-grid">
             {realisations.map((item) => (
@@ -459,6 +474,13 @@ export default function About() {
                 <div className="about-realisation-body">
                   <h3>{item.title}</h3>
                   <p>{item.date}</p>
+                  {item.tags && (
+                    <div className="about-realisation-tags">
+                      {item.tags.map((tag) => (
+                        <span key={tag} className="about-realisation-tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

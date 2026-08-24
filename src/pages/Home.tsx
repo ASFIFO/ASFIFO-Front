@@ -26,9 +26,11 @@ const trainings = [
     img: whatsappImages[5],
   },
   {
+    // Renommée (au lieu d'ajouter une 4e carte) pour rester cohérente avec
+    // la fiche "Audit interne et Contrôle de Gestion" de la page Formations.
     id: "audit-interne",
-    name: "Audit interne et financier",
-    description: "Maîtrisez les diligences d'audit et la fiabilisation des états financiers.",
+    name: "Audit opérationnel (comptable et financier, procédures, etc.)",
+    description: "Contrôle des risques, fiabilisation des états financiers et des procédures pour sécuriser la gestion de votre entreprise.",
     img: whatsappImages[0],
   },
 ];
@@ -68,9 +70,15 @@ export default function Home() {
         <div className="hero-glass-panel">
           <div className="hero-main-row">
             <div className="hero-content">
-              <h1>Devenir professionnel dans votre métier</h1>
+              <h1>Vous cherchez des collaborateurs opérationnels et éthiques ?</h1>
 
               <div>
+                <div className="hero-badges-row">
+                  {/* Arguments visibles demandés par la cliente */}
+                  <span className="hero-badge">Agrément du ministère de la Formation professionnelle</span>
+                  <span className="hero-badge">Employabilité des jeunes</span>
+                </div>
+
                 <div className="hero-cta-row">
                   <Link to="/contact">
                     <button className="btn btn-light">Nous contacter</button>
@@ -81,10 +89,15 @@ export default function Home() {
                 </div>
 
                 <p className="hero-shop-title">
-                  Comptabilité, Audit et Entrepreneuriat
+                  Vous ne voulez plus former ni perdre de temps ? ASFIFO est votre solution.
                 </p>
                 <p className="hero-subtitle">
-                  10 ans d'existence. Une pédagogie en alternance (1/3 théorie, 2/3 pratique) avec délivrance d'un certificat pour être directement opérationnel. Des recrutements de qualité fondés sur la confiance, l'éthique et les compétences.
+                  {/* TODO [À CONFIRMER] : numéro d'agrément de l'État à intégrer ici dès qu'il sera communiqué. */}
+                  Depuis 2016, ASFIFO est agréé par l'État pour l'alternance, le recrutement, la formation et
+                  l'intégration en entreprise, avec délivrance d'un certificat reconnu par l'État. Nous
+                  proposons également l'incubation et la formation en entreprise, pour vous fournir des
+                  collaborateurs directement opérationnels, sélectionnés sur la confiance, l'éthique et les
+                  compétences.
                 </p>
               </div>
             </div>
@@ -163,7 +176,9 @@ export default function Home() {
           <p>
             Former les futurs professionnels de la comptabilité, de l'audit
             et de l'entrepreneuriat à Madagascar, grâce à un apprentissage
-            pratique et un accompagnement personnalisé.
+            pratique et un accompagnement personnalisé. Notre expertise
+            s'étend aussi à la technique agricole et à l'entrepreneuriat
+            rural, avec des formateurs spécialisés dans ces domaines.
           </p>
           <Link to="/contact">
             <button className="btn btn-outline">Nous contacter</button>

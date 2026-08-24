@@ -99,15 +99,39 @@
 .hero-content h1 {
   font-family: "Playfair Display", serif;
   font-weight: 600;
-  font-size: clamp(67.2px, 3.4vw, 54.4px);
-  line-height: 1.12;
+  /* Le clamp précédent avait un min (67.2px) > max (54.4px), donc invalide :
+     le navigateur restait bloqué sur 67.2px fixe, beaucoup trop grand pour
+     la phrase d'accroche actuelle, plus longue que l'ancien titre. */
+  font-size: clamp(30px, 2.6vw + 20px, 42px);
+  line-height: 1.2;
+}
+
+/* Badges d'arguments visibles (agrément, employabilité) */
+.hero-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  font-size: 12.8px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .hero-cta-row {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-top: 34px;
+  margin-top: 18px;
   margin-bottom: 26px;
 }
 
@@ -473,7 +497,7 @@
   }
 
   .hero-content h1 {
-    font-size: 38.4px;
+    font-size: 32px;
   }
 
   .clients-card h3 {
