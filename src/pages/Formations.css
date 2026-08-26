@@ -129,6 +129,134 @@
   background: var(--f-panel);
 }
 
+/* ===== Parcours d'inscription (étapes horizontales) ===== */
+.formations-journey {
+  padding-bottom: 40px;
+}
+
+.formations-journey-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  margin: 32px 0 0 0;
+  padding: 0;
+}
+
+@media (min-width: 900px) {
+  .formations-journey-steps {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+}
+
+.formations-journey-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .formations-journey-step {
+    flex: 1;
+    align-items: stretch;
+  }
+}
+
+.formations-journey-arrow {
+  display: none;
+  width: 20px;
+  height: 20px;
+  color: var(--f-text-muted);
+  flex-shrink: 0;
+}
+
+@media (min-width: 900px) {
+  .formations-journey-arrow {
+    display: block;
+    margin: 0 8px;
+    align-self: center;
+  }
+}
+
+.formations-journey-card {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--f-border);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.formations-journey-card-active {
+  opacity: 1;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formations-journey-card-active:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+.formations-journey-number {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-family: var(--f-font-serif);
+  font-size: 20px;
+  color: var(--f-border);
+}
+
+.formations-journey-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--f-accent-bg);
+  color: var(--f-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.formations-journey-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: var(--f-text);
+}
+
+.formations-journey-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--f-text-muted);
+  margin: 0 0 14px 0;
+}
+
+.formations-journey-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--f-text-muted);
+  background: var(--f-panel);
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-top: auto;
+}
+
+.formations-journey-badge-active {
+  color: #ffffff;
+  background: var(--f-accent);
+}
+
 /* ===== Vue d'ensemble ===== */
 .formations-overview-grid {
   display: grid;

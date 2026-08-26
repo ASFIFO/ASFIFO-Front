@@ -17,6 +17,11 @@ import {
   FileCheck2,
   Briefcase,
   Monitor,
+  Gauge,
+  UserPlus,
+  CreditCard,
+  Laptop,
+  ArrowRight,
 } from "lucide-react";
 
 const formations = [
@@ -93,17 +98,22 @@ const formations = [
     ],
   },
   {
+    // Renommée "Audit opérationnel" à la demande de la cliente : la fiche ne
+    // couvre plus seulement les diligences de l'auditeur interne, mais aussi
+    // l'audit comptable et financier et l'audit de procédures. Intitulé
+    // aligné sur la carte "Nos formations" de l'accueil (cf. Home.tsx).
     id: "audit-interne",
     icon: ShieldCheck,
-    title: "Audit interne et Contrôle de Gestion",
-    summary: "Maîtrisez la démarche et les outils de l'auditeur interne pour évaluer le dispositif de contrôle interne.",
+    title: "Audit opérationnel (comptable et financier, procédures, etc.)",
+    summary: "Contrôle des risques, audit comptable et financier et audit de procédures pour sécuriser la gestion de votre entreprise.",
     image: "https://i.pinimg.com/1200x/04/6d/a7/046da75f7ccc468073da4bfec3b58f06.jpg",
     context: [
-      "La fonction d'auditeur interne est fréquemment exercée par des cadres expérimentés nécessitant une méthodologie rigoureuse. La réussite d'une mission d'audit repose sur la maîtrise des outils de diagnostic et de contrôle interne.",
+      "L'audit opérationnel est fréquemment exercé par des cadres expérimentés nécessitant une méthodologie rigoureuse, qu'il s'agisse de fiabiliser les comptes et les données financières ou d'évaluer les procédures et le dispositif de contrôle interne. La réussite d'une mission repose sur la maîtrise des outils de diagnostic propres à chacun de ces volets.",
     ],
     results: [
-      "Savoir conduire une mission d'audit interne de A à Z",
-      "Être capable d'évaluer le dispositif de contrôle interne",
+      "Savoir conduire une mission d'audit opérationnel de A à Z",
+      "Fiabiliser les comptes et les états financiers de l'entreprise",
+      "Évaluer les procédures et le dispositif de contrôle interne",
       "Établir des questionnaires d'audit adaptés aux enjeux",
       "Rédiger des rapports d'audit percutants et des comptes rendus de révision",
     ],
@@ -169,6 +179,41 @@ const softwareTools = [
   { name: "Tableur Excel Avancé", desc: "Modélisation de tableaux de bord, formules financières, états de rapprochement." },
 ];
 
+// Parcours d'inscription demandé par la cliente : tester son niveau (pour
+// adapter la formation), s'inscrire, payer, puis suivre la formation en
+// ligne. Seule l'inscription (redirigée vers /contact) existe aujourd'hui ;
+// les trois autres étapes n'ont pas encore de page ou d'outil dédié (test de
+// niveau, paiement en ligne, espace de formation en ligne) — elles sont donc
+// affichées à titre de repère du parcours, avec la mention "Bientôt
+// disponible", plutôt que comme des liens qui ne mèneraient nulle part.
+const enrollmentSteps = [
+  {
+    icon: Gauge,
+    title: "Tester votre niveau",
+    desc: "Un test rapide pour adapter la formation à votre profil.",
+    available: false,
+  },
+  {
+    icon: UserPlus,
+    title: "S'inscrire à une formation",
+    desc: "Choisissez votre parcours et déposez votre candidature.",
+    available: true,
+    to: "/contact",
+  },
+  {
+    icon: CreditCard,
+    title: "Payer",
+    desc: "Réglez les frais de formation en toute simplicité.",
+    available: false,
+  },
+  {
+    icon: Laptop,
+    title: "Suivre votre formation en ligne",
+    desc: "Accédez à vos cours et supports depuis votre espace personnel.",
+    available: false,
+  },
+];
+
 export default function Formations() {
   return (
     <div className="formations-page">
@@ -191,6 +236,54 @@ export default function Formations() {
           </p>
         </div>
       </header>
+
+      {/* Parcours d'inscription : tester son niveau, s'inscrire, payer, suivre en ligne */}
+      <section className="formations-section formations-journey">
+        <div className="formations-container">
+          <span className="formations-eyebrow">Votre parcours</span>
+          <h2 className="formations-section-title">Comment se former avec ASFIFO</h2>
+          <p className="formations-text" style={{ maxWidth: "680px" }}>
+            Testez votre niveau pour adapter votre formation, inscrivez-vous, réglez les frais
+            puis suivez votre formation en ligne.
+          </p>
+
+          <ol className="formations-journey-steps">
+            {enrollmentSteps.map((step, index) => {
+              const Icon = step.icon;
+              const content = (
+                <>
+                  <span className="formations-journey-number">{index + 1}</span>
+                  <span className="formations-journey-icon">
+                    <Icon className="icon-md" />
+                  </span>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                  <span className={`formations-journey-badge ${step.available ? "formations-journey-badge-active" : ""}`}>
+                    {step.available ? "Disponible" : "Bientôt disponible"}
+                  </span>
+                </>
+              );
+
+              return (
+                <li key={step.title} className="formations-journey-step">
+                  {step.available && step.to ? (
+                    <Link to={step.to} className="formations-journey-card formations-journey-card-active">
+                      {content}
+                    </Link>
+                  ) : (
+                    <div className="formations-journey-card" aria-disabled="true">
+                      {content}
+                    </div>
+                  )}
+                  {index < enrollmentSteps.length - 1 && (
+                    <ArrowRight className="formations-journey-arrow" aria-hidden="true" />
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </section>
 
       {/* Vue d'ensemble */}
       <div className="md:mx-20!">

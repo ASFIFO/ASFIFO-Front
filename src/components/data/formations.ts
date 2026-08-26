@@ -43,14 +43,16 @@ export const formations: Formation[] = [
     features: ['Coaching individuel', 'Management & Leadership', 'Communication professionnelle', 'Gestion des risques & fiscalité'],
   },
   {
+    // Renommée "Audit opérationnel" pour rester cohérente avec la carte de
+    // l'accueil (Home.tsx) et la fiche détaillée de la page Formations.
     id: 'audit-interne',
-    title: 'Audit Interne et Contrôle de Gestion',
-    description: 'Maîtrisez la démarche et les outils de l\'auditeur interne pour évaluer efficacement le dispositif de contrôle interne et élaborer des rapports d\'audit à forte valeur ajoutée.',
+    title: 'Audit opérationnel (comptable et financier, procédures, etc.)',
+    description: 'Fiabilisez les comptes et les états financiers de l\'entreprise, évaluez les procédures et le dispositif de contrôle interne, et élaborez des rapports d\'audit à forte valeur ajoutée.',
     duration: '3 mois',
     level: 'Cadres & Auditeurs',
     category: 'Audit & Contrôle',
     image: whatsappImages[0],
-    features: ['Démarche d\'audit interne', 'Évaluation du contrôle interne', 'Questionnaires d\'audit', 'Rédaction de comptes rendus'],
+    features: ['Audit comptable & financier', 'Audit de procédures', 'Évaluation du contrôle interne', 'Rédaction de comptes rendus'],
   },
   {
     id: 'audit-comptable',
