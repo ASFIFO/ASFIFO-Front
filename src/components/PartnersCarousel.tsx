@@ -3,31 +3,31 @@ import "./PartnersCarousel.css";
 const partners = [
   {
     name: "Camoi 3.0",
-    logo: "https://www.asfifo.mg/wp-content/uploads/2024/07/Camoi_30.svg",
+    logo: "/logo-camoi.png",
   },
   {
     name: "Expert Conseils",
-    logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/exco-1.png",
+    logo: "/logo-expert-conseils.png",
   },
   {
     name: "CGA",
-    logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/CGA.jpg",
+    logo: "/logo-cga.png",
   },
   {
     name: "Fedem",
     logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/Logo-1-768x768.png",
   },
-  // TODO [À CONFIRMER] : logos officiels de Rekany, Agri Export et Agri
-  // Connect à récupérer auprès de la cliente. En attendant, `logo: null`
-  // affiche un placeholder (initiales) via `.pc-logo-placeholder`.
   {
     name: "Rekany",
-    logo: null,
+    logo: "/logo-rekany.jpeg",
   },
   {
     name: "Agri Export",
-    logo: null,
+    logo: "/logo-agriexport-300x87.webp",
   },
+  // TODO [À CONFIRMER] : logo officiel de Agri Connect à récupérer
+  // auprès de la cliente. En attendant, `logo: null` affiche un
+  // placeholder (initiales) via `.pc-logo-placeholder`.
   {
     name: "Agri Connect",
     logo: null,
