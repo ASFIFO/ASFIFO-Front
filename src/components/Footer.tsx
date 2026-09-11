@@ -99,7 +99,7 @@ export default function Footer() {
         </div>
 
         <div className="site-footer-bottom">
-          <span>© 2026 ASFIFO Formation. Tous droits réservés.</span>
+          <span>© 2026 ASFIFO Formation. Tous droits réservés. Developed by <a href="https://eraydigital.tech" target="_blank" rel="noopener noreferrer">Eray Digital</a></span>
           <div className="site-footer-bottom-links">
             <a href="#">Politique de confidentialité</a>
             <a href="#">Conditions d'utilisation</a>
