@@ -15,7 +15,7 @@ const partners = [
   },
   {
     name: "Fedem",
-    logo: "https://www.asfifo.mg/wp-content/uploads/2023/10/Logo-1-768x768.png",
+    logo: "/fedem.png",
   },
   {
     name: "Rekany",
